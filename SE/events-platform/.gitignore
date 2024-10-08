@@ -6,7 +6,5 @@ dist-ssr
 *.local
 
 apikey.js
-eventbrite
-eventbriteAPIKey.js
-eventbriteToken.js
+
 
