@@ -3,7 +3,6 @@ import "../src/App.css";
 import { LoginPage } from "./components/LoginPage";
 import { Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
-import StaffLogin from "./components/LoginForm";
 import HomePage from "./components/HomePage";
 
 function App() {
