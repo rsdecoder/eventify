@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { auth } from "../firebase";
+
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { auth, db } from "../firebase";
+const env = process.env;
+const eventbriteOrganizationId = env.REACT_APP_EVENTBRITE_ORGANIZATION_ID;
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [employeeId, setEmployeeId] = useState("");
+  const [organizationId, setOrganizationId] = useState("");
   const navigate = useNavigate();
 
   const [isEyeClicked, setIsEyeClicked] = useState(true);
@@ -16,11 +19,7 @@ const LoginForm = () => {
   const [quote, setQuote] = useState("Show Password");
 
   // useEffect(() => {
-  //   const unsubscribe = auth.onAuthStateChanged((user) => {
-  //     if (user) {
-  //       navigate("/");
-  //     }
-  //   });
+
   //   return unsubscribe;
   // }, []);
 
@@ -42,7 +41,11 @@ const LoginForm = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCred) => {
         console.log("loggedIn!");
-        navigate("/");
+        if (organizationId === eventbriteOrganizationId) {
+          navigate("/add-event");
+        } else {
+          navigate("/");
+        }
         const user = userCred.user;
         console.log(userCred, "<<<user credentials");
       })
@@ -100,15 +103,15 @@ const LoginForm = () => {
           Employee ID number:{" "}
           <input
             type="string"
-            name="employeeId"
+            name="organizationId"
             placeholder="(only for employees)"
             className="form-input optional"
             autoComplete="off"
-            onChange={(e) => setEmployeeId(e.target.value)}
+            onChange={(e) => setOrganizationId(e.target.value)}
           />
           <p className="info">
             (If you are one of our employees trying to log in, please enter your
-            employee ID)
+            organization ID)
           </p>
         </label>
         <input
@@ -118,6 +121,7 @@ const LoginForm = () => {
           onClick={handleLoginSubmit}
         />
       </form>
+      
     </div>
   );
 };

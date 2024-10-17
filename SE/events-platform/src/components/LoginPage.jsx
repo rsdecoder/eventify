@@ -7,9 +7,6 @@ import LoginForm from "./LoginForm";
 export const LoginPage = () => {
   const navigate = useNavigate();
 
-  const handleLoginAsStaff = () => {
-    // navigate("/login");
-  };
   return (
     <div id="login">
       <LoginForm />

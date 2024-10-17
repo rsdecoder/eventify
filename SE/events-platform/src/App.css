@@ -1,27 +1,23 @@
- /* Login-page */
- #login {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-  background-image: url("./assets/creative-green-abstract-background-template-1612195269146-cover.webp");
+#main {
+  /* background-image: url("./assets/creative-green-abstract-background-template-1612195269146-cover.webp"); */
   background-repeat:no-repeat;
   background-size: cover;
- }
+  height: 100vh;
+}
 
 #header {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  height: 90px;
-  width: 'fit-content';
+  height: 100px;
   border-bottom: 3px solid rgb(13, 133, 13);
   background-color: rgb(183, 79, 41);
   color: white;
   font-size: 20px;
-  padding: 10px;
+  padding: 20px;
 }
+
 
 .header-welcome {
   display: flex;
@@ -33,7 +29,7 @@
 }
 
 .style-app-name {
-  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  /* font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; */
   font-size: xx-large;
   font-weight: bold;
   margin-left: 20px;
@@ -42,21 +38,34 @@
 .user-nav {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 20%;
+  justify-content: space-evenly;
+  list-style-type: none;
+
 }
-.no-decoration {
+.user-nav-link {
   text-decoration:none;
-  color: white;
-  font-size: x-large;
-  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  font-weight: bold;
+  color: maroon;
+  font-size: 24px;
+  font-weight: 400;
+  padding-right: 20px;
+  /* font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; */
   margin-right: 15px;
 }
-a:hover {
+li:hover {
   color: blue;
-  
+  padding: 10px;
+  font-size: 20px
 }
+
+ /* Login-page */
+ #login {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+ }
+
 /* Login form styling  */
 #login-section {
   display: flex;
@@ -80,7 +89,7 @@ a:hover {
   justify-content: space-around;
 }
 .form-label {
-  /* margin-top: 10px; */
+  margin-top: 10px;
   padding: 20px;
   font-size: 22px;
 }
@@ -88,7 +97,7 @@ a:hover {
   margin-top: 8px;
   width: 300px;
   height: 30px;
-  /* padding: 4px; */
+  padding: 4px;
   font-size: 20px;
 }
 .toggle-section {
@@ -97,6 +106,7 @@ a:hover {
   align-items: left;
   justify-content: space-evenly;
   width: 50%;
+  margin-top: 10px;
   font-size: 19px;
 
 }
@@ -136,4 +146,125 @@ a:hover {
   font-size: 20px;
   font-style: italic;
   color: grey;
+}
+#home {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  margin-top: 30px;
+  margin: 30px 10px;
+}
+.categories-container {
+  display: flex;
+  height: 500px;
+  flex-direction: row;
+  align-items: center;
+  justify-content:center;
+  flex-wrap: wrap;
+}
+.category-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-family:Arial, Helvetica, sans-serif;
+  margin: 50px;
+  font-size: 18px;
+  flex-wrap: wrap;
+  border: "1px solid blue";
+  height: 160px;
+  width: 165px;
+  background-color: rgb(208, 71, 71);
+  border-radius: 50%;
+}
+.category-card:hover {
+  background-color: rgb(19, 19, 84);
+  color: white;
+}
+.text-center {
+  color: navy;
+  text-align: center;
+}
+
+
+/* AddEventPage CSS  */
+
+
+#add-event-page {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  height: 100vh;
+  margin: 30px;
+  padding: 20px;
+  font-size: 20px;
+}
+#add-event-form {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: space-evenly;
+  margin: 10px;
+  height: 90vh;
+  background-color: rgb(12, 35, 71);
+  color: white;
+  padding: 30px;
+  border-radius: 20px;
+  
+}
+.add-event-page-heading {
+  margin-bottom: 10px;
+  color: rgb(8, 8, 89);
+}
+.event-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  color: white;
+}
+.add-event-form-input {
+  width: 300px;
+  font-size: 18px;
+  margin-left: 30px;
+  padding: 5px;
+  border: 1px solid white;
+}
+
+.add-event-form-input:hover{
+  color: navy;
+  background-color: rgb(213, 132, 112);
+}
+.add-event-form-text-area{
+  width: 60%;
+}
+.create-event-text {
+  color: rgb(196, 32, 32);
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  
+}
+.event-submit {
+  width: 150px;
+  padding: 10px;
+  background-color: rgb(68, 148, 68);
+  color: navy;
+  border-radius: 10px;
+}
+
+.ticketform-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 1rem;
+  color: rgb(203, 125, 57);
+  font-size: 18px;
+}
+
+.ticketform-input {
+  margin-left: 15px;
+  width: 100px;
+  height: 30px;
+  font-size: 18px;
+  padding: 10px;
 }

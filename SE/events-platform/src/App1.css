@@ -1,0 +1,393 @@
+#main {
+  /* background-image: url("./assets/creative-green-abstract-background-template-1612195269146-cover.webp"); */
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+
+#header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 90px;
+  border-bottom: 3px solid rgb(225, 220, 220);
+  background-color: whitesmoke;
+  color: black;
+  font-size: 20px;
+  padding: 20px;
+}
+
+.header-welcome {
+  display: flex;
+  flex-direction: row;
+  width: "fit-content";
+  align-items: center;
+  align-self: left;
+  justify-content: space-between;
+}
+
+.style-app-name {
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-left: 20px;
+}
+
+.user-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  list-style-type: none;
+}
+.user-nav-link {
+  text-decoration: none;
+  color: maroon;
+  font-size: 24px;
+  font-weight: 400;
+  padding-right: 20px;
+  /* font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; */
+  margin-right: 15px;
+}
+li:hover {
+  color: blue;
+  padding: 10px;
+  font-size: 20px;
+}
+
+/* Login-page */
+#login {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+/* Login form styling  */
+#login-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid navy;
+  border-radius: 20px;
+  background-color: rgb(12, 35, 71);
+  color: white;
+  height: "fit-content";
+  width: 500px;
+  margin-top: 30px;
+}
+
+#login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem;
+  margin-top: 30px;
+  justify-content: space-around;
+}
+.form-label {
+  margin-top: 10px;
+  padding: 20px;
+  font-size: 22px;
+}
+.form-input {
+  margin-top: 8px;
+  width: 300px;
+  height: 30px;
+  padding: 4px;
+  font-size: 20px;
+}
+.toggle-section {
+  display: flex;
+  flex-direction: row;
+  align-items: left;
+  justify-content: space-evenly;
+  width: 50%;
+  margin-top: 10px;
+  font-size: 19px;
+}
+.toggle-section {
+  font-weight: lighter;
+  color: rgb(13, 133, 13);
+}
+
+.eye {
+  color: lightblue;
+}
+.eyeOff {
+  color: rgb(225, 73, 32);
+}
+.eye:hover {
+  color: grey;
+}
+.submit {
+  margin: 40px;
+  width: 35%;
+  padding: 6px;
+  font-size: 25px;
+  color: blue;
+  font-weight: bold;
+  border: 1px solid blue;
+  background-color: rgb(154, 209, 154);
+}
+.submit:active {
+  color: grey;
+}
+.required-attribute {
+  font-size: 30px;
+  color: red;
+}
+.info {
+  font-size: 20px;
+  font-style: italic;
+  color: grey;
+}
+#home {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  margin-top: 30px;
+  margin: 30px 10px;
+}
+.categories-container {
+  display: flex;
+  height: 500px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.category-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 50px;
+  font-size: 18px;
+  flex-wrap: wrap;
+  border: "1px solid blue";
+  height: 160px;
+  width: 165px;
+  background-color: rgb(208, 71, 71);
+  border-radius: 50%;
+}
+.category-card:hover {
+  background-color: rgb(19, 19, 84);
+  color: white;
+}
+.text-center {
+  color: navy;
+  text-align: center;
+}
+
+/* AddEventPage CSS  */
+
+/* #add-event-page {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    height: 100vh;
+    margin: 30px;
+    padding: 20px;
+    font-size: 20px;
+  }
+  #add-event-form {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: space-evenly;
+    margin: 10px;
+    height: 90vh;
+    background-color: rgb(12, 35, 71);
+    color: white;
+    padding: 30px;
+    border-radius: 20px;
+    
+  }
+  .add-event-page-heading {
+    margin-bottom: 10px;
+    color: rgb(8, 8, 89);
+  }
+  .event-label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    color: white;
+  }
+  .add-event-form-input {
+    width: 300px;
+    font-size: 18px;
+    margin-left: 30px;
+    padding: 5px;
+    border: 1px solid white;
+  }
+  
+  .add-event-form-input:hover{
+    color: navy;
+    background-color: rgb(213, 132, 112);
+  }
+  .add-event-form-text-area{
+    width: 60%;
+  }
+  .create-event-text {
+    color: rgb(196, 32, 32);
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    
+  }
+  .event-submit {
+    width: 150px;
+    padding: 10px;
+    background-color: rgb(68, 148, 68);
+    color: navy;
+    border-radius: 10px;
+  }
+  
+  .ticketform-label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 1rem;
+    color: rgb(203, 125, 57);
+    font-size: 18px;
+  }
+  
+  .ticketform-input {
+    margin-left: 15px;
+    width: 100px;
+    height: 30px;
+    font-size: 18px;
+    padding: 10px;
+  }
+   */
+
+#add-event-page {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  margin: 10px;
+  padding: 10px;
+  background-color: #0c2b59;
+  color: white;
+}
+
+.add-event-page-heading {
+  font-size: 20px;
+  text-align: center;
+  margin: 18px;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+.create-event-text {
+  color: rgb(196, 32, 32);
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.wrapper {
+  font-size: 38px;
+}
+#event-form {
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+  padding: 10px;
+  /* border: 1px solid red; */
+  /* padding-bottom: 20px;
+  border-bottom: 2px solid navy; */
+}
+.add-event-form-heading {
+  font-size: 20px;
+  margin: 16px;
+  color: rgb(190, 95, 95);
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+.event-label-section {
+  display: flex;
+  flex-direction: column;
+  /* text-align: center; */
+  margin-bottom: 2rem;
+}
+.event-label {
+  font-size: 22px;
+  font-family: "Times New Roman", Times, serif;
+  margin: 10px;
+}
+.add-event-form-input {
+  border-radius: 10px;
+  /* align-self: center; */
+  border: 1px solid navy;
+  color: black;
+  font-size: 18px;
+  padding: 20px;
+  background-color: rgb(198, 191, 191);
+}
+.add-event-form-text-area,
+.image-url-input {
+  width: 70vw;
+}
+.image-upload-section {
+  margin: 5px 10px 5px 10px;
+  font-size: 18px;
+  color: rgb(139, 210, 143);
+}
+.image-preview-section {
+  margin: 5px 10px 5px 10px;
+}
+.event-calendar-section {
+  display: flex;
+  flex-direction: row;
+  width: 60%;
+  /* align-self: center; */
+  flex-flow: wrap;
+  justify-content: space-between;
+}
+.date-picker {
+  background-color: rgb(106, 188, 106);
+  text-align: center;
+}
+.reduced-width {
+  width: 300px;
+}
+.venue,
+.ticket-class {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.venue-input {
+  width: 400px;
+}
+.venue-address {
+  display: flex;
+  flex-direction: row;
+  width: 70%;
+  justify-content: space-between;
+  flex-flow: wrap;
+}
+.venue-address-heading {
+  margin: 10px;
+  font-size: 24px;
+}
+.event-submit {
+  width: 200px;
+  padding: 20px;
+  background-color: rgb(176, 42, 42);
+  color: white;
+  margin: 40px;
+  border-radius: 10px;
+  align-self: flex-end;
+}
+
+.event-submit:hover {
+  color: navy;
+  padding: 18px;
+  background-color: rgb(20, 141, 20);
+}
+.error {
+  margin-top: 100px;
+}
