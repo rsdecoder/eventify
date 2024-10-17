@@ -8,5 +8,6 @@ dist-ssr
 apikey.js
 
 eventbrite
+
 .env
 ticketMasterApiKey.js
