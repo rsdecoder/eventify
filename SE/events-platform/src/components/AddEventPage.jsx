@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { fetchAllCategories, postAnEvent } from "../../apis";
+import { fetchAllCategories, postAnEvent, postVenue } from "../../apis";
 import CurrencyInput from "react-currency-input-field";
-import { auth } from "../firebase";
+import countryList from "react-select-country-list";
 import { useNavigate } from "react-router-dom";
 
 const AddEventPage = () => {
@@ -11,8 +11,8 @@ const AddEventPage = () => {
   const [categories, setCategories] = useState([]);
   const [eventName, setEventName] = useState("");
   const [eventDescription, setEventDescription] = useState("");
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const [venueName, setVenueName] = useState("");
   const [addEventCategoryId, setAddEventCategoryId] = useState("");
   const defaultTimezone = "Europe/London";
@@ -22,12 +22,15 @@ const AddEventPage = () => {
   const [venueAddress1, setVenueAddress1] = useState("");
   const [venueAddress2, setVenueAddress2] = useState("");
   const [venueCity, setVenueCity] = useState("");
-  const [venueCountry, setVenueCountry] = useState("");
+  const [venueCountry, setVenueCountry] = useState("GB");
   const utcStartDate = startDate
     ? startDate.toISOString().split(".")[0] + "Z"
     : null;
   const utcEndDate = endDate ? endDate.toISOString().split(".")[0] + "Z" : null;
   const [error, setError] = useState(null);
+
+  // country list for venue country
+  const options = useMemo(() => countryList().getData(), []);
 
   const venueDetails = {
     venue_name: venueName,
@@ -42,6 +45,7 @@ const AddEventPage = () => {
     "ticket_class.quantity_total": setTicketQuantity,
     "ticket_class.cost": ticketCost,
   };
+
   useEffect(() => {
     fetchAllCategories()
       .then((categories) => {
@@ -54,6 +58,7 @@ const AddEventPage = () => {
 
   // handle add event click
   const handleCreateEvent = async (e) => {
+
     e.preventDefault();
 
     const eventDetails = {
@@ -67,15 +72,33 @@ const AddEventPage = () => {
       event_category_id: addEventCategoryId,
     };
 
-    postAnEvent(eventDetails)
-      .then((response) => {
-        console.log(response);
-        navigate("/");
-      })
-      .catch((err) => {
-        console.log(err, "<<<<<<<<err");
-        setError(err.message);
-      });
+    postVenue(venueDetails).then((data) => {
+      const venue_id = data.id;
+      console.log(data, "venue_id");
+      postAnEvent(eventDetails, venue_id)
+        .then((data) => {
+          console.log(data);
+          const event_id = data.id;
+          alert("Event added succesfully");
+          setEventName("");
+          setEventDescription("");
+          setStartDate(null);
+          setEndDate(null);
+          setAddEventCategoryId("");
+          setVenueAddress1("");
+          setVenueAddress2("");
+          setVenueName("");
+          setVenueCity("");
+          setVenueCountry("");
+          setTicketClass("General Admission");
+          setTicketCost(0.0);
+          setTicketQuantity(0);
+        })
+        .catch((err) => {
+          console.log(err, "<<<<<<<<err");
+          setError(err.message);
+        });
+    });
   };
 
   if (error) {
@@ -143,7 +166,7 @@ const AddEventPage = () => {
               showTimeSelect
               timeInputLabel="Time:"
               isClearable
-              placeholderText="I have been cleared!"
+              placeholderText="Pick a start date!"
               withPortal
               showIcon
               required
@@ -159,7 +182,7 @@ const AddEventPage = () => {
               timeInputLabel="Time:"
               dateFormat="YYYY/MM/dd  hh:mm:ss"
               isClearable
-              placeholderText="I have been cleared!"
+              placeholderText="Pick an end date!"
               withPortal
               showIcon
               required
@@ -186,20 +209,20 @@ const AddEventPage = () => {
           <p className="venue-address-heading">Address</p>
           <div className="venue-address">
             <label className="event-label-section">
-              <span className="event-label">Street Name</span>
+              <span className="event-label">address line 1</span>
               <input
                 type="text"
-                placeholder="street name"
+                placeholder="building name"
                 autoComplete="on"
                 className="add-event-form-input venue-input"
                 onChange={(e) => setVenueAddress1(e.target.value)}
               />
             </label>
             <label className="event-label-section">
-              <span className="event-label">Location & Postcode</span>
+              <span className="event-label">address line 2</span>
               <input
                 type="text"
-                placeholder="county/postcode"
+                placeholder="street, county"
                 autoComplete="on"
                 className="add-event-form-input venue-input"
                 onChange={(e) => setVenueAddress2(e.target.value)}
@@ -218,13 +241,18 @@ const AddEventPage = () => {
           </label>
           <label className="event-label-section">
             <span className="event-label">Country</span>
-            <input
-              type="text"
-              placeholder="country"
-              autoComplete="on"
+            <select
               className="add-event-form-input reduced-width"
               onChange={(e) => setVenueCountry(e.target.value)}
-            />
+            >
+              {options.map((country, index) => {
+                return (
+                  <option key={index} value={country.value}>
+                    {country.label}
+                  </option>
+                );
+              })}
+            </select>
           </label>
         </div>
         <h4 className="add-event-form-heading">

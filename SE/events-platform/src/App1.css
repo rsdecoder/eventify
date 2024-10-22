@@ -1,5 +1,4 @@
 #main {
-  /* background-image: url("./assets/creative-green-abstract-background-template-1612195269146-cover.webp"); */
   background-repeat: no-repeat;
   background-size: cover;
   height: 100vh;
@@ -29,9 +28,10 @@
 
 .style-app-name {
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
-  font-size: 2rem;
-  font-weight: bold;
+  font-size: 2.4rem;
+  font-weight: bolder;
   margin-left: 20px;
+  color: rgb(208, 71, 71);
 }
 
 .user-nav {
@@ -39,12 +39,12 @@
   align-items: center;
   justify-content: space-evenly;
   list-style-type: none;
+  font-weight: bold;
 }
 .user-nav-link {
   text-decoration: none;
-  color: maroon;
+  color: rgb(208, 71, 71);
   font-size: 24px;
-  font-weight: 400;
   padding-right: 20px;
   /* font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; */
   margin-right: 15px;
@@ -65,7 +65,7 @@ li:hover {
 }
 
 /* Login form styling  */
-#login-section {
+.login-section {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -73,7 +73,6 @@ li:hover {
   border-radius: 20px;
   background-color: rgb(12, 35, 71);
   color: white;
-  height: "fit-content";
   width: 500px;
   margin-top: 30px;
 }
@@ -82,8 +81,7 @@ li:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 3rem;
-  margin-top: 30px;
+  padding: 2rem;
   justify-content: space-around;
 }
 .form-label {
@@ -123,10 +121,11 @@ li:hover {
 }
 .submit {
   margin: 40px;
-  width: 35%;
+  width: 40%;
   padding: 6px;
   font-size: 25px;
   color: blue;
+  cursor: pointer;
   font-weight: bold;
   border: 1px solid blue;
   background-color: rgb(154, 209, 154);
@@ -143,35 +142,59 @@ li:hover {
   font-style: italic;
   color: grey;
 }
+
+.signup-info {
+  font-size: 20px;
+  margin-top: 40px;
+}
+.signup-link {
+  margin-top: 10px;
+}
+.signup-button {
+  height: 50px;
+  width: 140px;
+  font-size: 20px;
+  font-weight: bold;
+  color: rgb(193, 58, 58);
+}
 #home {
   display: flex;
   flex-direction: column;
   align-items: left;
-  margin-top: 30px;
   margin: 30px 10px;
 }
 .categories-container {
   display: flex;
-  height: 500px;
+  /* height: 500px; */
   flex-direction: row;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+  padding: 20px;
+  margin: 20px 0px 20px 0px;
+  border-bottom: 1px solid grey;
 }
 .category-card {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
   font-family: Arial, Helvetica, sans-serif;
-  margin: 50px;
-  font-size: 18px;
-  flex-wrap: wrap;
-  border: "1px solid blue";
-  height: 160px;
-  width: 165px;
+  margin: 30px;
+  padding: 50px;
+  font-size: 14px;
+  /* flex-wrap: wrap; */
+  border: 3px solid rgb(224, 152, 19);
+  box-shadow: 2px 2px 2px 2px;
+  height: 60px;
+  width: 60px;
+  /* background-color: rgb(31, 31, 113); */
   background-color: rgb(208, 71, 71);
   border-radius: 50%;
+}
+.category-link {
+  color: white;
+  font-weight: 400;
+  text-decoration: none;
 }
 .category-card:hover {
   background-color: rgb(19, 19, 84);
@@ -181,88 +204,6 @@ li:hover {
   color: navy;
   text-align: center;
 }
-
-/* AddEventPage CSS  */
-
-/* #add-event-page {
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-    height: 100vh;
-    margin: 30px;
-    padding: 20px;
-    font-size: 20px;
-  }
-  #add-event-form {
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-    justify-content: space-evenly;
-    margin: 10px;
-    height: 90vh;
-    background-color: rgb(12, 35, 71);
-    color: white;
-    padding: 30px;
-    border-radius: 20px;
-    
-  }
-  .add-event-page-heading {
-    margin-bottom: 10px;
-    color: rgb(8, 8, 89);
-  }
-  .event-label {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    color: white;
-  }
-  .add-event-form-input {
-    width: 300px;
-    font-size: 18px;
-    margin-left: 30px;
-    padding: 5px;
-    border: 1px solid white;
-  }
-  
-  .add-event-form-input:hover{
-    color: navy;
-    background-color: rgb(213, 132, 112);
-  }
-  .add-event-form-text-area{
-    width: 60%;
-  }
-  .create-event-text {
-    color: rgb(196, 32, 32);
-    font-weight: bold;
-    font-family: Arial, Helvetica, sans-serif;
-    
-  }
-  .event-submit {
-    width: 150px;
-    padding: 10px;
-    background-color: rgb(68, 148, 68);
-    color: navy;
-    border-radius: 10px;
-  }
-  
-  .ticketform-label {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    font-size: 1rem;
-    color: rgb(203, 125, 57);
-    font-size: 18px;
-  }
-  
-  .ticketform-input {
-    margin-left: 15px;
-    width: 100px;
-    height: 30px;
-    font-size: 18px;
-    padding: 10px;
-  }
-   */
 
 #add-event-page {
   display: flex;
@@ -347,11 +288,13 @@ li:hover {
 }
 .date-picker {
   background-color: rgb(106, 188, 106);
+  background-color: rgb(166, 214, 233);
   text-align: center;
 }
 .reduced-width {
   width: 300px;
 }
+
 .venue,
 .ticket-class {
   display: flex;
@@ -390,4 +333,122 @@ li:hover {
 }
 .error {
   margin-top: 100px;
+}
+
+#events-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+.event-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid green;
+  align-items: left;
+  margin: 10px;
+  padding: 20px;
+  height: 450px;
+  width: 400px;
+  background-color: purple;
+  color: white;
+  border-radius: 10px;
+}
+
+/* .event-title {
+  border-bottom: 2px solid white;
+  font-size: 20px;
+  text-align: center;
+  padding: 20px;
+  background-color: white;
+  color: black;
+} */
+
+.account-button {
+  text-decoration: none;
+  font-weight: bold;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.account-button:hover {
+  color: blue;
+  font-size: 20px;
+}
+.dropdown-close {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 90px;
+  justify-content: space-between;
+  padding: 20px;
+  font-size: 24px;
+  color: rgb(208, 71, 71);
+  border-bottom: 1px solid grey;
+}
+
+.dropdown-menu {
+  position: absolute;
+  background-color: white;
+  height: 100vh;
+  width: 25%;
+  right: 1px;
+  top: 0px;
+  z-index: 1;
+  padding: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  text-align: center;
+}
+.dropdown-list {
+  list-style: none;
+  padding: 10px;
+}
+.dropdown-menu li {
+  padding: 20px;
+  margin: 20px 5px 20px 5px;
+  border-bottom: 1px solid rgb(184, 184, 213);
+}
+
+.dropdown-menu li a {
+  text-decoration: none;
+}
+
+.dropdown-menu li:hover {
+  background-color: peachpuff;
+  color: blue;
+}
+
+/* sign up page */
+
+.radio-input-section {
+  display: flex;
+  flex-direction: row;
+}
+
+.err-msg {
+  color: red;
+  background-color: white;
+  text-align: left;
+}
+
+.vortex-wrapper {
+  position: relative;
+  top: 150px;
+  left: 30%;
+}
+
+.logout-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  width: 400px;
+}
+
+.logout-button {
+  width: 150px;
 }

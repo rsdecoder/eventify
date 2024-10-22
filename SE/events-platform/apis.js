@@ -1,6 +1,7 @@
 import axios from "axios";
-import { EVENTBRITE_API_TOKEN } from "../events-platform/eventbrite/eventbriteToken.js";
-import { eventbriteOrganizationId } from "./eventbrite/eventbriteOrganizationId.js";
+const env = process.env;
+const eventbriteOrganizationId = env.REACT_APP_EVENTBRITE_ORGANIZATION_ID;
+const eventbriteToken = env.REACT_APP_EVENTBRITE_API_TOKEN;
 
 const eventsApi = axios.create({
   baseURL: "https://www.eventbriteapi.com/v3",
@@ -12,7 +13,7 @@ export const fetchAllCategories = () => {
   return eventsApi
     .get("/categories/", {
       headers: {
-        Authorization: `Bearer ${EVENTBRITE_API_TOKEN}`,
+        Authorization: `Bearer ${eventbriteToken}`,
       },
     })
     .then((response) => {
@@ -20,10 +21,54 @@ export const fetchAllCategories = () => {
     });
 };
 
+//fetchAllEvents
+
+export const fetchAllEvents = () => {
+  return eventsApi
+    .get(`/organizations/${eventbriteOrganizationId}/events/`, {
+      headers: {
+        Authorization: `Bearer ${eventbriteToken}`,
+      }
+    })
+    .then((response) => {
+      return response.data.events;
+    });
+};
+
+
+// fetchEventById
+
+export const fetchEventById = (event_id) => {
+  return eventsApi
+  .get(`/events/${event_id}/` , {
+    headers: {
+      Authorization: `Bearer ${eventbriteToken}`,
+    },
+  })
+  .then((response) => {
+    return response.data
+  })
+
+}
+
+//fetchVenues
+
+export const fetchVenueById = (venue_id) => {
+  return eventsApi
+    .get(`/venues/${venue_id}/`, {
+      headers: {
+        Authorization: `Bearer ${eventbriteToken}`,
+      },
+    })
+    .then((response) => {
+      return response.data;
+    });
+};
+
 // post/create an event to an organization
 
-export const postAnEvent = (eventDetails) => {
-  console.log(eventDetails, "inside apis");
+export const postAnEvent = (eventDetails, venue_id) => {
+
   const postBody = {
     "event.name.html": eventDetails.event_name,
     "event.description.html": eventDetails.event_description,
@@ -32,14 +77,14 @@ export const postAnEvent = (eventDetails) => {
     "event.end.utc": eventDetails.event_endDate,
     "event.end.timezone": eventDetails.event_timezone,
     "event.currency": "GBP",
-    // "event.logo_id": eventDetails.event_logoId,
+    "event.venue_id": venue_id,
     "event.online_event": false,
     "event.listed": false,
   };
   return eventsApi
     .post(`/organizations/${eventbriteOrganizationId}/events/`, postBody, {
       headers: {
-        Authorization: `Bearer ${EVENTBRITE_API_TOKEN}`,
+        Authorization: `Bearer ${eventbriteToken}`,
         "Content-Type": "application/json",
       },
     })
@@ -51,15 +96,17 @@ export const postAnEvent = (eventDetails) => {
 //post a venue while creating event
 
 export const postVenue = (venueDetails) => {
-  console.log(eventDetails, "inside apis");
   const postBody = {
-    "venue.name": venueDetails.venueName,
-    "venue.address": venueDetails.venueName,
+    "venue.name": venueDetails.venue_name,
+    "venue.address.address_1": venueDetails.venue_address1,
+    "venue.address.address_2": venueDetails.venue_address2,
+    "venue.address.city": venueDetails.venue_city,
+    "venue.address.country": venueDetails.venueCountry,
   };
   return eventsApi
-    .post(`/organizations/${eventbriteOrganizationId}/events/`, postBody, {
+    .post(`/organizations/${eventbriteOrganizationId}/venues/`, postBody, {
       headers: {
-        Authorization: `Bearer ${EVENTBRITE_API_TOKEN}`,
+        Authorization: `Bearer ${eventbriteToken}`,
         "Content-Type": "application/json",
       },
     })
@@ -68,3 +115,13 @@ export const postVenue = (venueDetails) => {
     });
 };
 
+//Post ticket class for an event /events/event_id/ticketClass
+
+// const postTicketClass = (ticketDetails) => {
+//   console.log(ticketDetails, "<<<<,ticket details")
+
+//   const postBody = {
+//     "ticket_class.description": ticketDetails.ticketclass,
+//     "ticket_class.cost"
+//   }
+//}

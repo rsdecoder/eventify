@@ -12,21 +12,22 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
-  const [role, setRole] = useState(null);
+  const [userDetails, setUserDetails] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setCurrentUser(user);
+      setCurrentUser(user)
       if (user) {
         const userDoc = await getDoc(doc(db, "users", user.uid));
         if (userDoc.exists()) {
-          setRole(userDoc.data().role);
+          console.log(userDoc.data(), "userdoc");
+          setUserDetails(userDoc.data())
         } else {
-          setRole("user"); // default role
+          setUserDetails(null); // default role
         }
       } else {
-        setRole(null);
+        setUserDetails(null);
       }
       setLoading(false);
     });
@@ -36,9 +37,9 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     currentUser,
-    role,
+    userDetails
   };
-
+  console.log(value, "<<<value");
   return (
     <AuthContext.Provider value={value}>
       {!loading && children}

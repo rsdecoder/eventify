@@ -2,21 +2,32 @@ import React, { useEffect, useState } from "react";
 import CategoryCard from "./CategoryCard.jsx";
 import Events from "./Events.jsx";
 import { fetchAllCategories } from "../../apis.js";
+import LoaderSpinner from "./LoaderSpinner.jsx";
 
 const HomePage = () => {
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     fetchAllCategories()
       .then((categories) => {
         setCategories(categories);
+        setIsLoading(false);
       })
       .catch((err) => {
         setError(err.message);
+        setIsLoading(true);
       });
+    setIsLoading(true);
   }, []);
 
+  if (isLoading) {
+    return (
+      <LoaderSpinner/>
+    );
+  }
   if (error) {
     return <p>Error: {error}</p>;
   }
@@ -29,6 +40,7 @@ const HomePage = () => {
           return (
             <CategoryCard
               key={category.id}
+              categoryId={category.id}
               categoryName={category.short_name}
             />
           );
