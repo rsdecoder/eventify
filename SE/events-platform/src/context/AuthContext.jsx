@@ -21,10 +21,9 @@ export const AuthProvider = ({ children }) => {
       if (user) {
         const userDoc = await getDoc(doc(db, "users", user.uid));
         if (userDoc.exists()) {
-          console.log(userDoc.data(), "userdoc");
           setUserDetails(userDoc.data())
         } else {
-          setUserDetails(null); // default role
+          setUserDetails(null); 
         }
       } else {
         setUserDetails(null);
@@ -39,7 +38,6 @@ export const AuthProvider = ({ children }) => {
     currentUser,
     userDetails
   };
-  console.log(value, "<<<value");
   return (
     <AuthContext.Provider value={value}>
       {!loading && children}

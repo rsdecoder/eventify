@@ -28,28 +28,26 @@ export const fetchAllEvents = () => {
     .get(`/organizations/${eventbriteOrganizationId}/events/`, {
       headers: {
         Authorization: `Bearer ${eventbriteToken}`,
-      }
+      },
     })
     .then((response) => {
       return response.data.events;
     });
 };
 
-
 // fetchEventById
 
 export const fetchEventById = (event_id) => {
   return eventsApi
-  .get(`/events/${event_id}/` , {
-    headers: {
-      Authorization: `Bearer ${eventbriteToken}`,
-    },
-  })
-  .then((response) => {
-    return response.data
-  })
-
-}
+    .get(`/events/${event_id}/`, {
+      headers: {
+        Authorization: `Bearer ${eventbriteToken}`,
+      },
+    })
+    .then((response) => {
+      return response.data;
+    });
+};
 
 //fetchVenues
 
@@ -68,7 +66,6 @@ export const fetchVenueById = (venue_id) => {
 // post/create an event to an organization
 
 export const postAnEvent = (eventDetails, venue_id) => {
-
   const postBody = {
     "event.name.html": eventDetails.event_name,
     "event.description.html": eventDetails.event_description,
@@ -115,13 +112,41 @@ export const postVenue = (venueDetails) => {
     });
 };
 
-//Post ticket class for an event /events/event_id/ticketClass
+// Post ticket class for an event /events/event_id/ticketClass
 
-// const postTicketClass = (ticketDetails) => {
-//   console.log(ticketDetails, "<<<<,ticket details")
+export const postTicketClass = (eventId, ticketDetails) => {
+  const postBody = {
+    "ticket_class.description": ticketDetails.ticketName,
+    "ticket_class.cost": ticketDetails.ticketCost,
+    "ticket_class.capacity": ticketDetails.ticketQuantity,
+    "ticket_class.name": "General Admission",
+  };
 
-//   const postBody = {
-//     "ticket_class.description": ticketDetails.ticketclass,
-//     "ticket_class.cost"
-//   }
-//}
+  return eventsApi
+    .post(`/events/${eventId}/ticket_classes/`, postBody, {
+      headers: {
+        Authorization: `Bearer ${eventbriteToken}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .then((response) => {
+      console.log(response.data);
+      return response.data;
+    });
+};
+
+//GET Ticketclass for an event
+
+export const fetchTicketClassByEventId = (event_id) => {
+  return eventsApi
+    .get(`/events/${event_id}/ticket_classes/`, {
+      headers: {
+        Authorization: `Bearer ${eventbriteToken}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .then((response) => {
+      console.log(response.data);
+      return response.data.ticket_classes[0];
+    });
+};

@@ -11,6 +11,8 @@ import SingleEvent from "./components/SingleEvent.jsx";
 import SignUp from "./components/SignUp.jsx";
 import LoginForm from "./components/LoginForm.jsx";
 import Logout from "./components/Logout.jsx";
+import RegisterForEvent from "./components/RegisterForEvent.jsx";
+import AddToCalendar from "./components/AddToCalendar.jsx";
 
 function App() {
   return (
@@ -26,6 +28,7 @@ function App() {
           <Route path="/events/:event_id" element={<SingleEvent />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/logout" element={<Logout />} />
+          <Route path="/register-event" element ={<RegisterForEvent/>} />
         </Routes>
       </main>
     </AuthProvider>

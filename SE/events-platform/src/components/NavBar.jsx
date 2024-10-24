@@ -51,9 +51,11 @@ const NavBar = () => {
                 />
               </div>
               <ul className="dropdown-list">
-                <li>
-                  <a href="/login">SignUp/Login</a>
-                </li>
+              {!currentUser ? (
+                  <li>
+                    <a href="/login">SignUp/Login</a>
+                  </li>
+                ) : null}
                 {currentUser ? (
                   <li>
                     <a href="/profile">Profile</a>

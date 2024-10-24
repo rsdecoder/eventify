@@ -1,12 +1,19 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { fetchAllCategories, postAnEvent, postVenue } from "../../apis";
+import {
+  fetchAllCategories,
+  postAnEvent,
+  postTicketClass,
+  postVenue,
+} from "../../apis";
 import CurrencyInput from "react-currency-input-field";
 import countryList from "react-select-country-list";
 import { useNavigate } from "react-router-dom";
 
 const AddEventPage = () => {
+  const formRef = useRef(null);
+
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   const [eventName, setEventName] = useState("");
@@ -31,7 +38,6 @@ const AddEventPage = () => {
 
   // country list for venue country
   const options = useMemo(() => countryList().getData(), []);
-
   const venueDetails = {
     venue_name: venueName,
     venue_address1: venueAddress1,
@@ -41,9 +47,9 @@ const AddEventPage = () => {
   };
 
   const ticketClassDetails = {
-    "ticket_class.name": ticketClass,
-    "ticket_class.quantity_total": setTicketQuantity,
-    "ticket_class.cost": ticketCost,
+    ticketName: ticketClass,
+    ticketQuantity: ticketQuantity,
+    ticketCost: "GBP," + ticketCost.toString(),
   };
 
   useEffect(() => {
@@ -58,7 +64,6 @@ const AddEventPage = () => {
 
   // handle add event click
   const handleCreateEvent = async (e) => {
-
     e.preventDefault();
 
     const eventDetails = {
@@ -74,28 +79,19 @@ const AddEventPage = () => {
 
     postVenue(venueDetails).then((data) => {
       const venue_id = data.id;
-      console.log(data, "venue_id");
       postAnEvent(eventDetails, venue_id)
         .then((data) => {
-          console.log(data);
           const event_id = data.id;
+          postTicketClass(event_id, ticketClassDetails)
+            .then((data) => {
+            })
+            .catch((err) => {
+              setError(err);
+            });
           alert("Event added succesfully");
-          setEventName("");
-          setEventDescription("");
-          setStartDate(null);
-          setEndDate(null);
-          setAddEventCategoryId("");
-          setVenueAddress1("");
-          setVenueAddress2("");
-          setVenueName("");
-          setVenueCity("");
-          setVenueCountry("");
-          setTicketClass("General Admission");
-          setTicketCost(0.0);
-          setTicketQuantity(0);
+          formRef.current.reset();
         })
         .catch((err) => {
-          console.log(err, "<<<<<<<<err");
           setError(err.message);
         });
     });
@@ -112,7 +108,12 @@ const AddEventPage = () => {
         below and clicking the
         <span className="create-event-text"> Create Event</span> button!
       </p>
-      <form id="event-form" method="post" onSubmit={handleCreateEvent}>
+      <form
+        ref={formRef}
+        id="event-form"
+        method="post"
+        onSubmit={handleCreateEvent}
+      >
         <h4 className="add-event-form-heading">
           Please enter the event details here.
         </h4>
@@ -214,6 +215,7 @@ const AddEventPage = () => {
                 type="text"
                 placeholder="building name"
                 autoComplete="on"
+                required
                 className="add-event-form-input venue-input"
                 onChange={(e) => setVenueAddress1(e.target.value)}
               />
@@ -235,6 +237,7 @@ const AddEventPage = () => {
               type="text"
               placeholder="city"
               autoComplete="on"
+              required
               className="add-event-form-input reduced-width"
               onChange={(e) => setVenueCity(e.target.value)}
             />
@@ -243,6 +246,7 @@ const AddEventPage = () => {
             <span className="event-label">Country</span>
             <select
               className="add-event-form-input reduced-width"
+              required
               onChange={(e) => setVenueCountry(e.target.value)}
             >
               {options.map((country, index) => {
