@@ -146,7 +146,6 @@ export const fetchTicketClassByEventId = (event_id) => {
       },
     })
     .then((response) => {
-      console.log(response.data);
       return response.data.ticket_classes[0];
     });
 };
