@@ -68,8 +68,8 @@ const SingleEvent = () => {
         <div className="single-event-information">
           <h1 className="single-event-title">{eventData.name.text}</h1>
           <p>
-            {eventData.description
-              ? eventData.description.text
+            {eventData.summary
+              ? eventData.summary
               : "No description available"}
           </p>
           <p>

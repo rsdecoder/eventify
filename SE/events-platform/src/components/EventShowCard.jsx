@@ -1,10 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { fetchVenueById } from "../../apis";
 import { Link, useNavigate } from "react-router-dom";
-
+import PlaceIcon from "@mui/icons-material/Place";
 const EventShowCard = ({ event }) => {
-  const { id, name, capacity, description, start, end, venue_id, category_id } =
+  const { id, name, capacity, summary, start, end, venue_id, category_id } =
     event;
+  const formattedStartDate = new Date(start.utc).toLocaleString("en-GB", {
+    weekday: "long",
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  const formattedendDate = new Date(end.utc).toLocaleString("en-GB", {
+    weekday: "long",
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+
   const [venue, setVenue] = useState({});
   useEffect(() => {
     if (venue_id) {
@@ -19,37 +34,37 @@ const EventShowCard = ({ event }) => {
   return (
     <div className="event-card">
       <div className="event-details-container">
-        <h3 className="event-title">{name.text}</h3>
-        <p>{description.text}</p>
-        <div>
-          <p>Starts at {start.utc}</p>
-          <p>Ends at {end.utc}</p>
+        <p className="event-title">
+          {name.text[0].toUpperCase() + name.text.slice(1)}
+        </p>
+        <div className="event-detail event-timestamp">
+          <p>{formattedStartDate}</p>
         </div>
-        <p>Venue Capacity {capacity}</p>
         {venue ? (
-          <div>
-            <p>{venue.name}</p>
-            <h5>Venue Address</h5>
+          <div className="event-detail location">
+            <PlaceIcon />
             {venue.address ? (
-              <div>
-                <p>{venue.address.address_1}</p>
-                <p>{venue.address.address_2}</p>
-                <p>{venue.address.city}</p>
-                <p>{venue.address.country}</p>
-                <p>
-                  {venue.address.postal_code ? venue.address.postal_code : null}
-                </p>
+              <div className="event-detail event-venue">
+                <p className="event-detail">{venue.name}</p>
+                {venue.address.city ? (
+                  <p className="event-detail">{venue.address.city}</p>
+                ) : null}
+                {venue.address.country ? (
+                  <p className="event-detail">{venue.address.country}</p>
+                ) : null}
               </div>
             ) : (
-              <p>To be announced!</p>
+              <div className="event-detail event-venue">
+                <p className="event-detail">To be announced!</p>
+              </div>
             )}
           </div>
         ) : (
-          <p>To be announced soon!</p>
+          <p className="event-detail">To be announced soon!</p>
         )}
       </div>
       <Link to={`/events/${id}`}>
-        <button>View More</button>
+        <button className="view-more-button">View More</button>
       </Link>
     </div>
   );

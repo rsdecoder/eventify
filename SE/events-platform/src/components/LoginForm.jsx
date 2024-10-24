@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
-
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { auth, db } from "../firebase";
-const env = process.env;
-const eventbriteOrganizationId = env.REACT_APP_EVENTBRITE_ORGANIZATION_ID;
+import { getDoc, doc} from "firebase/firestore";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isStaff, setIsStaff] = useState(false);
   const [organizationId, setOrganizationId] = useState("");
-  const [user, setUser] = useState({});
   const navigate = useNavigate();
 
   const [isEyeClicked, setIsEyeClicked] = useState(true);
@@ -45,13 +43,22 @@ const LoginForm = () => {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCred) => {
-        alert("You are successfully logged in!")
-        if (organizationId === eventbriteOrganizationId) {
-          navigate("/add-event");
-        } else {
-          navigate("/");
-        }
         const user = userCred.user;
+        getDoc(doc(db, "users", user.uid))
+        .then((userDoc) => {
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            console.log(userData.role)
+            if (userData.role === "staff") {
+              alert("You are successfully logged in as staff!");
+              navigate("/add-event");
+            }
+            else {
+              alert("You are successfully logged in!");
+              navigate("/");
+            }
+          }
+        });  
       })
       .catch((err) => {
         alert(err);
@@ -111,21 +118,6 @@ const LoginForm = () => {
                   />
                 )}
               </span>
-            </p>
-          </label>
-          <label className="form-label">
-            Organization Id:{" "}
-            <input
-              type="string"
-              name="organizationId"
-              placeholder="(only for employees)"
-              className="form-input optional"
-              autoComplete="off"
-              onChange={(e) => setOrganizationId(e.target.value)}
-            />
-            <p className="info">
-              (If you are one of our employees trying to log in, please enter
-              your organization ID)
             </p>
           </label>
           <input type="submit" value="Log in" className="submit" />

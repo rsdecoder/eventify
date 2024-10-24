@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { fetchAllEvents } from "../../apis";
 import EventShowCard from "./EventShowCard";
 import { useSearchParams } from "react-router-dom";
+import "./AllEvents.css";
+import LoaderSpinner from "./LoaderSpinner";
+
 
 const Events = () => {
   const [events, setEvents] = useState([]);
@@ -10,9 +13,10 @@ const Events = () => {
   const [err, setErr] = useState(null);
   const categoryQuery = searchParams.get("category_id");
   const categoryName = searchParams.get("category_name");
-
+  const [isLoading, setIsLoading] = useState(true)
   
   useEffect(() => {
+    setIsLoading(true);
     fetchAllEvents()
       .then((events) => {
         if (categoryQuery) {
@@ -25,17 +29,23 @@ const Events = () => {
           }
         }
         setEvents(events);
+        setIsLoading(false)
       })
       .catch((err) => {
         setErr(err);
+        setIsLoading(true);
       });
+      setIsLoading(true);
   }, [categoryQuery]);
 
-  if (err) {
+  if(isLoading) {
+    return (<LoaderSpinner/>)
+  }
+   if (err) {
     return <p>{err}</p>;
   }
   return (
-    <div className="all-events">
+    <div id="all-events">
       <p className="events-heading">{categoryName? `Events filtered by ${categoryName}` : "All Events"}</p>
     <div id="events-container">
       {categoryQuery

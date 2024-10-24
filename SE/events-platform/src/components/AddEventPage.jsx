@@ -10,8 +10,12 @@ import {
 import CurrencyInput from "react-currency-input-field";
 import countryList from "react-select-country-list";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import ErrorPage from "./ErrorPage";
 
 const AddEventPage = () => {
+  const {userDetails, currentUser} = useAuth()
+
   const formRef = useRef(null);
 
   const navigate = useNavigate();
@@ -30,6 +34,7 @@ const AddEventPage = () => {
   const [venueAddress2, setVenueAddress2] = useState("");
   const [venueCity, setVenueCity] = useState("");
   const [venueCountry, setVenueCountry] = useState("GB");
+  const [postedTicket, setPostedTicket] = useState();
   const utcStartDate = startDate
     ? startDate.toISOString().split(".")[0] + "Z"
     : null;
@@ -84,6 +89,7 @@ const AddEventPage = () => {
           const event_id = data.id;
           postTicketClass(event_id, ticketClassDetails)
             .then((data) => {
+              setPostedTicket(data);
             })
             .catch((err) => {
               setError(err);
@@ -98,9 +104,11 @@ const AddEventPage = () => {
   };
 
   if (error) {
-    return <p className="error">{error}</p>;
+    return <ErrorPage error = {error}/>
   }
-
+  if(userDetails.role !== "staff") {
+    return <ErrorPage  error = {"You are not authroised to access this page!"}/>
+  }
   return (
     <div id="add-event-page">
       <p className="add-event-page-heading">
@@ -138,6 +146,8 @@ const AddEventPage = () => {
             autoComplete="on"
             className="add-event-form-input add-event-form-text-area"
             required
+            minLength={50}
+            maxLength={200}
             onChange={(e) => setEventDescription(e.target.value)}
           />
         </label>
@@ -227,6 +237,7 @@ const AddEventPage = () => {
                 placeholder="street, county"
                 autoComplete="on"
                 className="add-event-form-input venue-input"
+                required
                 onChange={(e) => setVenueAddress2(e.target.value)}
               />
             </label>
@@ -301,7 +312,7 @@ const AddEventPage = () => {
             <input
               className="add-event-form-input reduced-width"
               type="number"
-              defaultValue={0}
+              placeholder="0"
               min={0}
               required
               onChange={(e) => setTicketQuantity(e.target.value)}

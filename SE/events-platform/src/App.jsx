@@ -1,6 +1,4 @@
-import { useContext, useState } from "react";
 import "../src/App1.css";
-
 import { Routes, Route, useParams, useSearchParams } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import HomePage from "./components/HomePage";
@@ -12,9 +10,10 @@ import SignUp from "./components/SignUp.jsx";
 import LoginForm from "./components/LoginForm.jsx";
 import Logout from "./components/Logout.jsx";
 import RegisterForEvent from "./components/RegisterForEvent.jsx";
-import AddToCalendar from "./components/AddToCalendar.jsx";
+import ErrorPage from "./components/ErrorPage.jsx";
 
 function App() {
+
   return (
     <AuthProvider>
       <main id="main">
@@ -26,9 +25,9 @@ function App() {
           <Route path="/add-event" element={<AddEventPage />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/events/:event_id" element={<SingleEvent />} />
-          <Route path="/profile" element={<Profile />} />
           <Route path="/logout" element={<Logout />} />
-          <Route path="/register-event" element ={<RegisterForEvent/>} />
+          <Route path="/register-event" element={<RegisterForEvent />} />
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </main>
     </AuthProvider>

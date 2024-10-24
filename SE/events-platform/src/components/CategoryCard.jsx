@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 Link;
 const CategoryCard = ({ categoryId, categoryName }) => {
   return (
-    <div className="category-card">
       <Link
         to={`/events?category_id=${categoryId}&category_name=${categoryName}`}
         className="category-link"
@@ -11,7 +10,7 @@ const CategoryCard = ({ categoryId, categoryName }) => {
       >
         {categoryName}
       </Link>
-    </div>
+
   );
 };
 

@@ -24,15 +24,13 @@ const NavBar = () => {
         <p className="style-app-name">Eventify</p>
       </div>
       <ul className="user-nav">
-        {userDetails && userDetails.role === "staff"? 
-        <a href="/login" className="user-nav-link">
-          <li>Create Event</li>
-        </a> 
-        : null
-        }
-        <a href="/tickets" className="user-nav-link">
-          <li>Tickets</li>
-        </a>
+        {userDetails && userDetails.role === "staff" ? (
+          <li>
+            <a href="/add-event" className="user-nav-link">
+              Create Event
+            </a>
+          </li>
+        ) : null}
         <li className="navbar-item">
           <button
             onClick={toggleDropdown}
@@ -51,14 +49,9 @@ const NavBar = () => {
                 />
               </div>
               <ul className="dropdown-list">
-              {!currentUser ? (
+                {!currentUser ? (
                   <li>
                     <a href="/login">SignUp/Login</a>
-                  </li>
-                ) : null}
-                {currentUser ? (
-                  <li>
-                    <a href="/profile">Profile</a>
                   </li>
                 ) : null}
                 {currentUser ? (
