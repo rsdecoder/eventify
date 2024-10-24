@@ -24,6 +24,11 @@ const NavBar = () => {
         <p className="style-app-name">Eventify</p>
       </div>
       <ul className="user-nav">
+        <li>
+          <a href="/" className="user-nav-link">
+             Events
+          </a>
+        </li>
         {userDetails && userDetails.role === "staff" ? (
           <li>
             <a href="/add-event" className="user-nav-link">

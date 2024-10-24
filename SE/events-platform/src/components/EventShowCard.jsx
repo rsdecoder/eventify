@@ -3,7 +3,7 @@ import { fetchTicketClassByEventId, fetchVenueById } from "../../apis";
 import { Link, useNavigate } from "react-router-dom";
 import PlaceIcon from "@mui/icons-material/Place";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
-import { ConfirmationNumber } from "@mui/icons-material";
+
 const EventShowCard = ({ event }) => {
   const { id, name, capacity, summary, start, end, venue_id, category_id } =
     event;
@@ -48,9 +48,9 @@ const EventShowCard = ({ event }) => {
         <div className="venue-tickets-section">
           {venue ? (
             <div className="event-detail location">
-              <div>
-                <PlaceIcon />
-                <p>Venue</p>
+              <div className="venue-heading">
+                <PlaceIcon className="venue-heading-item" />
+                <p className="venue-heading-item">Location</p>
               </div>
               {venue.address ? (
                 <div className="event-detail event-venue">
@@ -72,7 +72,10 @@ const EventShowCard = ({ event }) => {
             <p className="event-detail">To be announced soon!</p>
           )}
           <div className="event-detail ">
-            <ConfirmationNumberIcon />
+            <div className="venue-heading">
+              <p className="venue-heading-item">Tickets</p>
+              <ConfirmationNumberIcon className="venue-heading-item" />
+            </div>
             {tickets ? (
               <div className="event-detail">
                 {tickets.display_name ? (

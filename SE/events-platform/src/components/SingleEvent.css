@@ -1,21 +1,99 @@
 #single-event-page {
-  height: 100%;
+  height: 110%;
   margin: 10px;
-  padding: 20px;
+  padding: 40px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
   font-size: 20px;
-}
-.single-event-title {
-  font-size: 2.6rem;
-  color: purple;
+  color: white;
+  background-color: #522258;
 }
 .single-event-information {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
   height: 500px;
   padding: 20px;
   justify-content: space-around;
+}
+.single-event-item {
+  margin-bottom: 30px;
+}
+.single-event-title {
+  font-size: 2.5rem;
+  color: #eb4e65;
+  font-weight: bold;
+  align-self: flex-start;
+}
+
+.date-time-section {
+  display: flex;
+  flex-direction: column;
+}
+.date-time-heading {
+  font-size: x-large;
+  font-weight: bold;
+  color: #ebd44e;
+  margin-bottom: 10px;
+}
+
+.single-venue-section {
+  display: flex;
+  flex-direction: column;
+}
+.date-and-time-items {
+  margin: 5px;
+}
+.single-venue-item {
+  margin-right: 5px;
+}
+.single-venue-section-heading {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  color: #8df384;
+  font-size: x-large;
+  margin-bottom: 10px;
+}
+
+.single-venue-address {
+  margin: 10px;
+}
+
+.ticket-color {
+  color: #b0a8f5;
+}
+
+.single-ticket-info {
+  margin: 10px;
+  display: flex;
+}
+
+.single-ticket-item {
+  margin-right: 10px;
+}
+
+#add-tickets {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.ticket-label {
+  margin-bottom: 20px;
+}
+.ticket-input {
+  margin-left: 20px;
+  height: 30px;
+  width: 100px;
+  font-size: 20px;
+  text-align: center;
+}
+
+.ticket-submit {
+  height: 40px;
+  width: 130px;
+  font-size: 18px;
 }
