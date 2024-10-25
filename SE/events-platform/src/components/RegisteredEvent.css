@@ -2,23 +2,55 @@
   display: flex;
   flex-direction: column;
   align-items: left;
-  margin: 5px;
-  padding: 20px;
+  padding: 30px;
   height: 110%;
-  background-color: #8c3061;
+  background-color: #f6dcac;
+  color: #892058;
 }
-.registered-event-section {
-  color: white;
-}
-.purchase-button {
-  height: 30px;
-  width: 100px;
-  margin: 10px;
-  align-self: center;
+.registered-event-heading {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #892058;
+  font-weight: bold;
 }
 
 .title {
   font-size: 20px;
+}
+.registered-event-section {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  padding: 10px;
+  height: 400px;
+  align-items: left;
+  justify-content: space-evenly;
+  font-size: 20px;
+}
+.registered-event-title {
+  font-size: 20px;
+  font-weight: bold;
+  font-family: "Roboto Slab", sans-serif;
+  padding-left: 10px;
+  color: #892058;
+}
+.registered-event-section-item {
+  margin-top: 20px;
+}
+.purchase-button {
+  height: 50px;
+  width: 120px;
+  margin-top: 40px;
+  padding: 10px;
+  font-size: 18px;
+  background-color: #892058;
+  color: white;
+  border-radius: 10px;
+  border: 1px solid #892058;
+}
+.purchase-button:hover {
+  background-color: #808836;
+  color: #2d041a;
 }
 
 .opacity {

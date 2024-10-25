@@ -3,7 +3,7 @@ import { Routes, Route, useParams, useSearchParams } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import HomePage from "./components/HomePage";
 import AddEventPage from "./components/AddEventPage";
-import { AuthProvider, useAuth } from "./context/AuthContext.jsx";
+import { AuthProvider} from "./context/AuthContext.jsx";
 import Profile from "./components/Profile.jsx";
 import SingleEvent from "./components/SingleEvent.jsx";
 import SignUp from "./components/SignUp.jsx";
@@ -26,6 +26,7 @@ function App() {
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/events/:event_id" element={<SingleEvent />} />
           <Route path="/logout" element={<Logout />} />
+          <Route path="/profile" element={<Profile/>}/>
           <Route path="/register-event" element={<RegisterForEvent />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>

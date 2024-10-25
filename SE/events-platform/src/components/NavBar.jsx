@@ -60,6 +60,9 @@ const NavBar = () => {
                   </li>
                 ) : null}
                 {currentUser ? (
+                  <li><a href="/profile">Profile</a></li>
+                ) : null}
+                {currentUser ? (
                   <li>
                     <a href="/logout">Sign out</a>
                   </li>

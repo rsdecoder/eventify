@@ -6,10 +6,12 @@ import "./RegisteredEvent.css";
 const RegisterForEvent = () => {
   const location = useLocation();
   //Accessing the data passed via navigation from the ticket purchase
-  const { event, tickets, venue } = location.state || {};
+  const { event, ticketsToBuy, ticketDetails, venue } = location.state || {};
   const [isClicked, setIsClicked] = useState(false);
   const [isPurchased, setIsPurchased] = useState(false);
-
+  const ticketsCost = Math.ceil(
+    (ticketDetails ? ticketDetails.cost.value : 0) / 100
+  );
   const handlePurchase = () => {
     setIsPurchased(true);
     setIsClicked(true);
@@ -17,19 +19,42 @@ const RegisterForEvent = () => {
   };
   return (
     <div id="registered-event">
-      <div className={isPurchased ? "opacity" : "no-opacity registered-event-section"}>
-        <h3>Please check the event details before purchase</h3>
-        <p className="title">{event.name.text}</p>
-        <p>
-          Start: {new Date(event.start.utc).toLocaleString()} <br />
-          End: {new Date(event.end.utc).toLocaleString()}
+      <h2 className="registered-event-heading">
+        Please check the event details before purchase
+      </h2>
+      <div
+        className={
+          isPurchased
+            ? "opacity registered-event-section"
+            : "no-opacity registered-event-section"
+        }
+      >
+        <p className="titel registered-event-section-item">
+          Name of the Venue:{" "}
+          <span className="registered-event-title">
+            {event.name.text.toUpperCase()}
+          </span>
         </p>
-        <p>Venue: {venue ? venue.name : "To be announced soon"}</p>
-        <p>Tickets: {tickets}</p>
+          <p className="registered-event-section-item">
+            Start: {new Date(event.start.utc).toLocaleString()}
+          </p>
+          <p className="registered-event-section-item" > End: {new Date(event.end.utc).toLocaleString()}</p>
+        <p className="registered-event-section-item">
+          Venue: {venue ? venue.name : "To be announced soon"}
+        </p>
+        <p className="registered-event-section-item">
+          Tickets you chose: {ticketsToBuy}
+        </p>
+        <p className="registered-event-section-item">
+          Cost per ticket - {ticketsCost}
+        </p>
+        <p className="registered-event-section-item">
+          Your total - £{ticketsToBuy * ticketsCost}
+        </p>
         <button
           onClick={handlePurchase}
           disabled={isClicked}
-          className="purchase-button"
+          className="purchase-button registered-event-section-item"
         >
           Purchase
         </button>

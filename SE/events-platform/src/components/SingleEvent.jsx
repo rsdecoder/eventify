@@ -54,7 +54,7 @@ const SingleEvent = () => {
   const handleBuyTickets = (e) => {
     e.preventDefault();
     navigate("/register-event/", {
-      state: { event: eventData, tickets: ticketsToBuy, venue: venue },
+      state: { event: eventData, ticketsToBuy: ticketsToBuy, ticketDetails: ticketDetails, venue: venue },
     });
   };
 
@@ -159,7 +159,11 @@ const SingleEvent = () => {
                 onChange={(e) => setTicketsToBuy(e.target.value)}
               />
             </label>
-            <input type="submit" className="ticket-submit" value="Buy Tickets" />
+            <input
+              type="submit"
+              className="ticket-submit"
+              value="Buy Tickets"
+            />
           </form>
         </div>
       ) : (

@@ -86,8 +86,9 @@
 }
 .ticket-input {
   margin-left: 20px;
+  padding: 5px;
   height: 30px;
-  width: 100px;
+  width: 80px;
   font-size: 20px;
   text-align: center;
 }
@@ -96,4 +97,10 @@
   height: 40px;
   width: 130px;
   font-size: 18px;
+  border: 1px solid white;
+  border-radius: 10px;
+}
+
+.ticket-submit:hover {
+  background-color: rgb(55, 184, 55);
 }

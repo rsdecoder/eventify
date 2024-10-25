@@ -48,7 +48,6 @@ const LoginForm = () => {
         .then((userDoc) => {
           if (userDoc.exists()) {
             const userData = userDoc.data();
-            console.log(userData.role)
             if (userData.role === "staff") {
               alert("You are successfully logged in as staff!");
               navigate("/add-event");
