@@ -78,39 +78,27 @@ Create a .env file in the root directory and include the following:
 - > Note!
   > Replace {organization_id} with your Eventbrite organization ID.
 
-## Folder Structure
+#### Future Improvements
 
-```plaintext
-├──SE/
-    ├──events-platform/
-        ├── public/
-        │   ├── index.html              # Main HTML file
-        │   ├── favicon.ico             # Favicon for the app
-        │   └── assets/                 # Static assets (images, fonts, etc.)
-        │       ├── images/             # Images used in the app
-        │       └── icons/              # Icons for buttons, etc.
-        ├── src/
-        │   ├── components/             # Reusable components
-        │   │   ├── Navbar.jsx          # Navigation bar component
-        │   │   ├── Footer.jsx          # Footer component
-        │   │   └── EventCard.jsx       # Component for displaying an event
-        │   ├── pages/                  # Pages for routing
-        │   │   ├── Home.jsx            # Home page
-        │   │   ├── Login.jsx           # User login page
-        │   │   └── AddEvent.jsx        # Page for adding events
-        │   ├── hooks/                  # Custom hooks
-        │   │   └── useAuth.js          # Hook for authentication
-        │   ├── context/                # Context API files
-        │   │   └── AuthContext.js      # Authentication context
-        │   ├── utils/                  # Utility functions
-        │   │   └── api.js              # API calls (Eventbrite, Firebase, etc.)
-        │   ├── styles/                 # CSS styles
-        │   │   └── App.css             # Main application styles
-        │   ├── App.js                  # Main app component
-        │   ├── index.js                # Entry point for the application
-        │   └── firebase.js             # Firebase configuration and initialization
-        ├── .env                         # Environment variables
-        ├── .gitignore                   # Files and directories to ignore by Git
-        ├── package.json                 # Project dependencies and scripts
-        └── README.md                    # Documentation for the project
-        ```
+- <b>Payment platform</b>: Integrate a payment platform where users can pay the amount for tickets when purchasing tickets. (Stripe or any other payment api)
+- <b>User Profiles</b>: Implement a profile page where users can view past events and registrations.
+- <b>Staff Profiles</b>: Implement a profile page for event management.
+- <b>Notifications</b>: Add email notifications to confirm registration and remind users about events.
+  Real Payment Integration: Transition from mock payments to real payment processing through Stripe or another service.
+
+#### Contributing
+
+Contributions are welcome! Please follow these steps:
+
+- Fork the project.
+- Create your feature branch <code>(git checkout -b feature/new-feature)</code>.
+- Commit your changes <code>(git commit -m 'Add new feature')</code>.
+- Push to the branch <code>(git push origin feature/new-feature)</code>.
+- Open a pull request.
+
+#### License
+
+><code>This project is licensed under the MIT License
+(LICENSE-MIT or http://opensource.org/licenses/MIT)</code>
+
+
