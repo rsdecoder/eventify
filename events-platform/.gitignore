@@ -5,9 +5,9 @@ dist
 dist-ssr
 *.local
 
-apikey.js
 
-eventbrite
 
 .env
-ticketMasterApiKey.js
+
+
+.netlify
