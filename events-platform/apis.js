@@ -130,7 +130,6 @@ export const postTicketClass = (eventId, ticketDetails) => {
       },
     })
     .then((response) => {
-      console.log(response.data);
       return response.data;
     });
 };

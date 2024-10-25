@@ -14,7 +14,7 @@ import { useAuth } from "../context/AuthContext";
 import ErrorPage from "./ErrorPage";
 
 const AddEventPage = () => {
-  const {userDetails, currentUser} = useAuth()
+  const { userDetails, currentUser } = useAuth();
 
   const formRef = useRef(null);
 
@@ -98,16 +98,16 @@ const AddEventPage = () => {
           formRef.current.reset();
         })
         .catch((err) => {
-          setError(err.message);
+          setError(err);
         });
     });
   };
 
   if (error) {
-    return <ErrorPage error = {error}/>
+    return <ErrorPage error={error} />;
   }
-  if(userDetails.role !== "staff") {
-    return <ErrorPage  error = {"You are not authroised to access this page!"}/>
+  if (userDetails.role !== "staff") {
+    return <ErrorPage error={"You are not authroised to access this page!"} />;
   }
   return (
     <div id="add-event-page">
