@@ -15,7 +15,7 @@ const NavBar = () => {
       <div className="header-welcome">
         <a href="/">
           <img
-            src="./src/assets/logo.png"
+            src="../assets/logo.png"
             className="logo"
             style={{ height: "50px", width: "50px", borderRadius: "50%" }}
             alt="app-logo"

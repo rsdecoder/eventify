@@ -1,13 +1,9 @@
 
 
 node_modules
-dist
-dist-ssr
-*.local
 
-apikey.js
+.netlify
 
-eventbrite
 
 .env
-ticketMasterApiKey.js
+

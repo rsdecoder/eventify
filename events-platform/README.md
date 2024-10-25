@@ -33,7 +33,7 @@
 
 1. Clone the git repository:
 
-   > <code>git clone https://github.com/your-username/events-management-app.git
+   > <code>git clone https://github.com/rsdecoder/events-management-app.git
    > cd SE/events-platform</code>
 
 2. Install Dependencies
