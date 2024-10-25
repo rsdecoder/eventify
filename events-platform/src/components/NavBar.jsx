@@ -15,7 +15,7 @@ const NavBar = () => {
       <div className="header-welcome">
         <a href="/">
           <img
-            src="../assets/logo.png"
+            src="./src/assets/logo.png"
             className="logo"
             style={{ height: "50px", width: "50px", borderRadius: "50%" }}
             alt="app-logo"
@@ -26,7 +26,7 @@ const NavBar = () => {
       <ul className="user-nav">
         <li>
           <a href="/" className="user-nav-link">
-             Events
+            Events
           </a>
         </li>
         {userDetails && userDetails.role === "staff" ? (
@@ -60,7 +60,9 @@ const NavBar = () => {
                   </li>
                 ) : null}
                 {currentUser ? (
-                  <li><a href="/profile">Profile</a></li>
+                  <li>
+                    <a href="/profile">Profile</a>
+                  </li>
                 ) : null}
                 {currentUser ? (
                   <li>
