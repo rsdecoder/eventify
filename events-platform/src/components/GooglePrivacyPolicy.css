@@ -1,0 +1,16 @@
+#privacy-policy-page {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+.policy-title {
+    margin: 20px 0px;
+  text-align: center;
+}
+.policy-info {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  padding: 10px;
+  line-height: 2.5rem;
+}

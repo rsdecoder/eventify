@@ -12,15 +12,22 @@ const RegisterForEvent = () => {
   const ticketsCost = Math.ceil(
     (ticketDetails ? ticketDetails.cost.value : 0) / 100
   );
+
   const handlePurchase = () => {
     setIsPurchased(true);
     setIsClicked(true);
-    alert("Your purchase has been successful! ");
+  };
+
+  const handleCancel = () => {
+    setIsPurchased(false);
+    setIsClicked(true);
   };
   return (
     <div id="registered-event">
       <h2 className="registered-event-heading">
-        Please check the event details before purchase
+        {isClicked
+          ? "Your purchased event!"
+          : "Please check the event details before purchase"}
       </h2>
       <div
         className={
@@ -35,10 +42,13 @@ const RegisterForEvent = () => {
             {event.name.text.toUpperCase()}
           </span>
         </p>
-          <p className="registered-event-section-item">
-            Start: {new Date(event.start.utc).toLocaleString()}
-          </p>
-          <p className="registered-event-section-item" > End: {new Date(event.end.utc).toLocaleString()}</p>
+        <p className="registered-event-section-item">
+          Start: {new Date(event.start.utc).toLocaleString()}
+        </p>
+        <p className="registered-event-section-item">
+          {" "}
+          End: {new Date(event.end.utc).toLocaleString()}
+        </p>
         <p className="registered-event-section-item">
           Venue: {venue ? venue.name : "To be announced soon"}
         </p>
@@ -54,7 +64,11 @@ const RegisterForEvent = () => {
         <button
           onClick={handlePurchase}
           disabled={isClicked}
-          className="purchase-button registered-event-section-item"
+          className={
+            isClicked
+              ? "grey registered-event-section-item"
+              : "purchase-button registered-event-section-item"
+          }
         >
           Purchase
         </button>
@@ -64,15 +78,12 @@ const RegisterForEvent = () => {
           id="add-google-calendar-container"
           className={isPurchased ? "no-opacity" : null}
         >
+          <p className="green">
+            Thank you! Your purchase has been successful!{" "}
+          </p>
           <p>Do you want to add this event to your calendar?</p>
           <AddToCalendar RegisteredEvent={event} venue={venue} />
-          <button
-            onClick={(e) => {
-              setIsPurchased(false), setIsClicked(false);
-            }}
-          >
-            Cancel
-          </button>
+          <button onClick={handleCancel}>Cancel</button>
         </div>
       ) : null}
     </div>

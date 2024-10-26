@@ -68,15 +68,14 @@ function AddToCalendar({ RegisteredEvent, venue }) {
 
   const addEventToCalendar = () => {
     const event = {
-      summary: RegisteredEvent ? RegisteredEvent.name.text : null, // Replace this with your event details
-      location: eventLocation,
+      summary: RegisteredEvent ? RegisteredEvent.name.text : null, 
       description: eventDescription,
       start: {
-        dateTime: startTime, // Replace with your event start date and time
+        dateTime: startTime, 
         timeZone: eventStartTimezone,
       },
       end: {
-        dateTime: endTime, // Replace with your event end date and time
+        dateTime: endTime, 
         timeZone: eventEndTimeZone,
       },
     };
@@ -116,6 +115,7 @@ function AddToCalendar({ RegisteredEvent, venue }) {
           Sign In with Google
         </button>
       )}
+      <a href="/privacy-policy"><button>Privacy Policy</button></a>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { auth, db } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import ErrorPage from "./ErrorPage";
 const env = process.env;
 const eventbriteOrganizationId = env.REACT_APP_EVENTBRITE_ORGANIZATION_ID;
 
@@ -24,13 +25,27 @@ const SignUp = () => {
       userTypedOrganizationId === eventbriteOrganizationId &&
       role === "staff"
     ) {
-      setIsTrue(true);
+      setIsTrue(false);
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
           addToDatabase(user);
-          alert("You have signed up succesfully!")
+          alert("You have signed up succesfully!");
+          navigate("/login");
+        })
+        .catch((error) => {
+          const errorMessage = error.message;
+          alert(`Error during sign-up: ${errorMessage}`);
+        });
+    } else if (role === "user") {
+      setIsTrue(false);
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          addToDatabase(user);
+          alert("You have signed up succesfully!");
           navigate("/login");
         })
         .catch((error) => {
@@ -38,7 +53,7 @@ const SignUp = () => {
           alert(`Error during sign-up: ${errorMessage}`);
         });
     } else {
-      setIsTrue(false);
+      setIsTrue(true);
     }
   };
 
@@ -58,7 +73,7 @@ const SignUp = () => {
   };
 
   if (err) {
-    return <p>{err.message}</p>;
+    return <ErrorPage error={err.message} />;
   }
   return (
     <div id="login">
@@ -134,23 +149,22 @@ const SignUp = () => {
           </div>
           {role === "staff" ? (
             <>
-            <label className="form-label">
-              <span className="required-attribute">*</span>Please enter your
-              organization Id
-              <input
-                type="string"
-                name="organizationId"
-                placeholder="(required only for staff)"
-                className="form-input"
-                autoComplete="off"
-                onChange={(e) => setUserTypedOrganizationId(e.target.value)}
-              />
-            </label>
-            {isTrue ? (
-            <p className="err-msg">
-              Please re-type/check your organization id
-            </p>
-          ) : null}
+              <label className="form-label">
+                <span className="required-attribute">*</span>Please enter your
+                organization Id
+                <input
+                  type="string"
+                  name="organizationId"
+                  placeholder="(required only for staff)"
+                  className="form-input"
+                  required
+                  autoComplete="off"
+                  onChange={(e) => setUserTypedOrganizationId(e.target.value)}
+                />
+              </label>
+              <p className={isTrue ? "err-msg" : "hide-msg"}>
+                Please re-type/check your organization id
+              </p>
             </>
           ) : null}
           <input type="submit" value="Sign Up" className="submit" />

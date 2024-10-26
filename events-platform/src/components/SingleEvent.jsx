@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   fetchEventById,
   fetchTicketClassByEventId,
@@ -8,8 +8,13 @@ import {
 import "./SingleEvent.css";
 import PlaceIcon from "@mui/icons-material/Place";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
+import { useAuth } from "../context/AuthContext";
+import LoaderSpinner from "./LoaderSpinner";
 
 const SingleEvent = () => {
+  const location = useLocation();
+  //Accessing the data passed via navigation from the ticket purchase
+  const { ticketsChosen } = location.state || {};
   const navigate = useNavigate();
   const [eventData, setEventData] = useState({});
   const [ticketsToBuy, setTicketsToBuy] = useState(0);
@@ -18,7 +23,7 @@ const SingleEvent = () => {
   const [error, setError] = useState(null);
   const { event_id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
-
+  const { currentUser } = useAuth();
   useEffect(() => {
     fetchEventById(event_id)
       .then((event) => {
@@ -53,13 +58,27 @@ const SingleEvent = () => {
 
   const handleBuyTickets = (e) => {
     e.preventDefault();
-    navigate("/register-event/", {
-      state: { event: eventData, ticketsToBuy: ticketsToBuy, ticketDetails: ticketDetails, venue: venue },
-    });
+    if (currentUser) {
+      navigate("/register-event/", {
+        state: {
+          event: eventData,
+          ticketsToBuy: ticketsToBuy,
+          ticketDetails: ticketDetails,
+          venue: venue,
+        },
+      });
+    } else {
+      navigate("/login", {
+        state: {
+          eventId: eventData ? eventData.id : null,
+          ticketsToBuy: ticketsToBuy,
+        },
+      });
+    }
   };
 
   if (isLoading) {
-    return <p>loading event details...!</p>;
+    return <LoaderSpinner/>
   }
   if (error) {
     return <p>{error.response.data.error_description}</p>;
@@ -150,13 +169,14 @@ const SingleEvent = () => {
               How many tickets would you like to buy?
               <input
                 type="number"
-                placeholder="0"
-                default={0}
+                placeholder={ticketsChosen ? ticketsChosen : 0}
+                value = {ticketsToBuy}
                 min={1}
                 max={ticketDetails ? ticketDetails.capacity : 20}
-                required
+                required = {ticketsChosen? false : true}
                 className="ticket-input"
-                onChange={(e) => setTicketsToBuy(e.target.value)}
+                onChange={(e) => ticketsChosen? setTicketsToBuy(ticketsChosen) : setTicketsToBuy(e.target.value)
+                }
               />
             </label>
             <input

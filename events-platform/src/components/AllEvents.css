@@ -47,7 +47,6 @@
   font-size: 18px;
 }
 .event-title {
-  border-bottom: 2px solid white;
   font-size: 18px;
   height: 75px;
   width: 320px;
@@ -55,9 +54,10 @@
   align-self: center;
   justify-self: flex-start;
   padding: 20px;
-  margin-top: 10px;
+  margin-top: 0px;
   margin-bottom: 20px;
   background-color: white;
+  border-radius: 10px;
   color: #522258;
   font-family: "Roboto Slab", serif;
   font-weight: 600;
@@ -65,20 +65,29 @@
 .venue-tickets-section {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   font-size: 14px;
   align-items: left;
-  margin-top: 12px;
+  margin: 20px 10px;
   height: 120px;
 }
+
+.place-icon {
+  color: rgb(247, 73, 73);
+}
+.tickets-icon {
+  color: rgb(255, 153, 0);
+}
 .event-detail {
-  padding: 10px;
+  margin: 5px;
+  padding-top: 5px;
 }
 
 .view-more-button {
-  height: 40px;
-  width: 100px;
+  height: 50px;
+  width: 120px;
+  font-size: 18px;
   /* font-size: 1rem; */
-  margin: 10px;
   padding: 5px;
   justify-self: flex-end;
   border: 1px solid #d95f59;
@@ -101,13 +110,12 @@
   color: white;
 }
 .venue-heading-item {
-  margin-right: 5px;
+  font-weight: bolder;
+  font-size: 17px;
+  margin-right: 6px;
 }
 .location {
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
-  /* justify-content: space-evenly;
   width: 50%;
-  margin-top: 20px; */
 }

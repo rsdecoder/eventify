@@ -47,13 +47,13 @@ const EventShowCard = ({ event }) => {
         </div>
         <div className="venue-tickets-section">
           {venue ? (
-            <div className="event-detail location">
+            <div className="location">
               <div className="venue-heading">
-                <PlaceIcon className="venue-heading-item" />
+                <PlaceIcon className="venue-heading-item place-icon" />
                 <p className="venue-heading-item">Location</p>
               </div>
               {venue.address ? (
-                <div className="event-detail event-venue">
+                <div className="event-venue">
                   <p className="event-detail">{venue.name}</p>
                   {venue.address.city ? (
                     <p className="event-detail">{venue.address.city}</p>
@@ -71,17 +71,17 @@ const EventShowCard = ({ event }) => {
           ) : (
             <p className="event-detail">To be announced soon!</p>
           )}
-          <div className="event-detail ">
+          <div className="tickets-section">
             <div className="venue-heading">
+              <ConfirmationNumberIcon className="venue-heading-item tickets-icon" />
               <p className="venue-heading-item">Tickets</p>
-              <ConfirmationNumberIcon className="venue-heading-item" />
             </div>
             {tickets ? (
-              <div className="event-detail">
+              <div>
                 {tickets.display_name ? (
-                  <p>{tickets.display_name}</p>
+                  <p className="event-detail">{tickets.display_name}</p>
                 ) : (
-                  <p>Tickets unavailable</p>
+                  <p className="event-detail">Tickets unavailable</p>
                 )}
                 {tickets.cost ? <p>{tickets.cost.display}</p> : null}
               </div>

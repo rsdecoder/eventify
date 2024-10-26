@@ -11,6 +11,7 @@ import LoginForm from "./components/LoginForm.jsx";
 import Logout from "./components/Logout.jsx";
 import RegisterForEvent from "./components/RegisterForEvent.jsx";
 import ErrorPage from "./components/ErrorPage.jsx";
+import GooglePrivacyPolicy from "./components/GooglePrivacyPolicy.jsx";
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
           <Route path="/logout" element={<Logout />} />
           <Route path="/profile" element={<Profile/>}/>
           <Route path="/register-event" element={<RegisterForEvent />} />
+          <Route path="/privacy-policy" element ={<GooglePrivacyPolicy/>}/>
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </main>

@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { auth, db } from "../firebase";
-import { getDoc, doc} from "firebase/firestore";
+import { getDoc, doc } from "firebase/firestore";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isStaff, setIsStaff] = useState(false);
-  const [organizationId, setOrganizationId] = useState("");
   const navigate = useNavigate();
-
+  const location = useLocation();
   const [isEyeClicked, setIsEyeClicked] = useState(true);
   const [type, setType] = useState("password");
   const [quote, setQuote] = useState("Show Password");
+  const { eventId, ticketsToBuy } = location.state || {};
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -44,20 +43,26 @@ const LoginForm = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCred) => {
         const user = userCred.user;
-        getDoc(doc(db, "users", user.uid))
-        .then((userDoc) => {
+        getDoc(doc(db, "users", user.uid)).then((userDoc) => {
           if (userDoc.exists()) {
             const userData = userDoc.data();
             if (userData.role === "staff") {
               alert("You are successfully logged in as staff!");
               navigate("/add-event");
-            }
-            else {
+            } else {
               alert("You are successfully logged in!");
-              navigate("/");
+              if (eventId && ticketsToBuy) {
+                navigate(`/events/${eventId}`, {state: { 
+                  ticketsChosen: ticketsToBuy,
+                }});
+              } else {
+                navigate("/");
+              }
             }
+          } else {
+            navigate("/");
           }
-        });  
+        });
       })
       .catch((err) => {
         alert(err);

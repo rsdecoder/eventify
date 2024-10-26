@@ -3,6 +3,7 @@ import CategoryCard from "./CategoryCard.jsx";
 import Events from "./Events.jsx";
 import { fetchAllCategories } from "../../apis.js";
 import LoaderSpinner from "./LoaderSpinner.jsx";
+import ErrorPage from "./ErrorPage.jsx";
 
 const HomePage = () => {
   const [categories, setCategories] = useState([]);
@@ -29,7 +30,7 @@ const HomePage = () => {
     );
   }
   if (error) {
-    return <p>Error: {error}</p>;
+    return <ErrorPage error ={err}/>;
   }
 
   return (
