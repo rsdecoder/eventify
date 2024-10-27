@@ -66,7 +66,11 @@ function AddToCalendar({ RegisteredEvent, venue }) {
       });
   };
 
-  const addEventToCalendar = () => {
+  const addEventToCalendar = async () => {
+    if (!gapi.client.calendar) {
+      console.error('GAPI client not loaded yet.');
+      return;
+    }
     const event = {
       summary: RegisteredEvent ? RegisteredEvent.name.text : null, 
       description: eventDescription,
@@ -79,15 +83,15 @@ function AddToCalendar({ RegisteredEvent, venue }) {
         timeZone: eventEndTimeZone,
       },
     };
-
-    gapi.client.calendar.events.insert({
-      calendarId: 'primary',
-      resource: event,
-    }).then(response => {
-      console.log("Event created successfully: ", response);
-    }).catch(error => {
-      console.log("Error creating event: ", error);
-    });
+    try {
+      const response = await gapi.client.calendar.events.insert({
+        calendarId: 'primary',
+        resource: event,
+      });
+      alert("Event added to the calendar successfully!");
+    } catch (error) {
+      alert("Sorry, failed adding the event.");
+    }
   };
 
   return (
