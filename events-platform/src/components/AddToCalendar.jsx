@@ -80,13 +80,13 @@ function AddToCalendar({ RegisteredEvent, venue }) {
       },
     };
 
-    const request = gapi.client.calendar.events.insert({
-      calendarId: "primary",
+    gapi.client.calendar.events.insert({
+      calendarId: 'primary',
       resource: event,
-    });
-
-    request.execute((event) => {
-      alert("Event added to calendar successfully!");
+    }).then(response => {
+      console.log("Event created successfully: ", response);
+    }).catch(error => {
+      console.log("Error creating event: ", error);
     });
   };
 
