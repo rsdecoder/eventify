@@ -4,6 +4,7 @@ import AddToCalendar from "./AddToCalendar";
 import "./AddToCalendar.css";
 import "./RegisteredEvent.css";
 import ErrorPage from "./ErrorPage";
+import AddEventToCalendar from "./AddEventToCalendar.jsx";
 const RegisterForEvent = () => {
   const location = useLocation();
   //Accessing the data passed via navigation from the ticket purchase
@@ -87,9 +88,12 @@ const RegisterForEvent = () => {
               Thank you! Your purchase has been successful!{" "}
             </p>
             <p>Do you want to add this event to your calendar?</p>
-            <AddToCalendar RegisteredEvent={event} venue={venue} />
-            <button className="calendar-cancel-button" onClick={handleCancel}>
-              Cancel X
+            <AddEventToCalendar RegisteredEvent={event} venue={venue} />
+            <button
+              className="calendar-cancel-button"
+              onClick={handleCancel}
+            >
+              Cancel
             </button>
           </div>
         ) : null}

@@ -119,8 +119,6 @@ https://eventify-rs.netlify.app/
 6. You will then be taken to the purchase page to make the purchase.
 7. Once you have purchased the event, you can add to the calendar
 
-[NOTE] 
-> <code>**The calendar feature is working in test mode but doesn't work in production as Google API I have used is still in the process of verification by the Google Team. So you will not be able to add the event to the calendar at the moment.</code>
 
 ##### Staff
 

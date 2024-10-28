@@ -16,14 +16,8 @@
   background-color: rgb(241, 229, 229);
   box-shadow: 2px 2px 2px purple;
 }
-.calendar-cancel-button {
-  height: 35px;
-  background-color: red;
-  color: white;
-  border: 1px solid red;
-  border-radius: 2px;
-  cursor: pointer;
-}
+
+
 .google-login {
   display: flex;
   flex-direction: column;
@@ -51,9 +45,4 @@
   background-color: rgb(8, 49, 8);
   color: white;
 }
-.privacy-policy-button {
-  border: none;
-  margin-top: 10px;
-  color: blue;
-  cursor: pointer;
-}
+

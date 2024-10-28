@@ -70,3 +70,38 @@
 .grey {
   display: none;
 }
+
+.add-event-to-calendar-button {
+  text-decoration: none;
+  border: 1px solid blue;
+  background-color: rgb(31, 31, 100);
+  color: white;
+  padding: 14px;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+.add-event-to-calendar-button:hover {
+  border: 1px solid rgb(203, 102, 102);
+  background-color: rgb(203, 102, 102);
+  color: rgb(31, 31, 100);
+  padding: 14px;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.calendar-cancel-button {
+  height: 35px;
+  background-color: red;
+  color: white;
+  border: 1px solid red;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.privacy-policy-button {
+  border: none;
+  margin-top: 10px;
+  color: blue;
+  cursor: pointer;
+}
