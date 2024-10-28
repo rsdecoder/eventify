@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import AddToCalendar from "./AddToCalendar";
 import "./AddToCalendar.css";
 import "./RegisteredEvent.css";
+import ErrorPage from "./ErrorPage";
 const RegisterForEvent = () => {
   const location = useLocation();
   //Accessing the data passed via navigation from the ticket purchase
   const { event, ticketsToBuy, ticketDetails, venue } = location.state || {};
   const [isClicked, setIsClicked] = useState(false);
   const [isPurchased, setIsPurchased] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [err, setErr] = useState(null);
   const ticketsCost = Math.ceil(
     (ticketDetails ? ticketDetails.cost.value : 0) / 100
   );
@@ -22,72 +25,79 @@ const RegisterForEvent = () => {
     setIsPurchased(false);
     setIsClicked(true);
   };
-  return (
-    <div id="registered-event">
-      <h2 className="registered-event-heading">
-        {isClicked
-          ? "Your purchased event!"
-          : "Please check the event details before purchase"}
-      </h2>
-      <div
-        className={
-          isPurchased
-            ? "opacity registered-event-section"
-            : "no-opacity registered-event-section"
-        }
-      >
-        <p className="titel registered-event-section-item">
-          Name of the Venue:{" "}
-          <span className="registered-event-title">
-            {event.name.text.toUpperCase()}
-          </span>
-        </p>
-        <p className="registered-event-section-item">
-          Start: {new Date(event.start.utc).toLocaleString()}
-        </p>
-        <p className="registered-event-section-item">
-          {" "}
-          End: {new Date(event.end.utc).toLocaleString()}
-        </p>
-        <p className="registered-event-section-item">
-          Venue: {venue ? venue.name : "To be announced soon"}
-        </p>
-        <p className="registered-event-section-item">
-          Tickets you chose: {ticketsToBuy}
-        </p>
-        <p className="registered-event-section-item">
-          Cost per ticket - {ticketsCost}
-        </p>
-        <p className="registered-event-section-item">
-          Your total - £{ticketsToBuy * ticketsCost}
-        </p>
-        <button
-          onClick={handlePurchase}
-          disabled={isClicked}
+
+  if (location.state) {
+    return (
+      <div id="registered-event">
+        <h2 className="registered-event-heading">
+          {isClicked
+            ? "Your purchased event!"
+            : "Please check the event details before purchase"}
+        </h2>
+        <div
           className={
-            isClicked
-              ? "grey registered-event-section-item"
-              : "purchase-button registered-event-section-item"
+            isPurchased
+              ? "opacity registered-event-section"
+              : "no-opacity registered-event-section"
           }
         >
-          Purchase
-        </button>
-      </div>
-      {isPurchased ? (
-        <div
-          id="add-google-calendar-container"
-          className={isPurchased ? "no-opacity" : null}
-        >
-          <p className="green">
-            Thank you! Your purchase has been successful!{" "}
+          <p className="titel registered-event-section-item">
+            Name of the Venue:{" "}
+            <span className="registered-event-title">
+              {event.name.text.toUpperCase()}
+            </span>
           </p>
-          <p>Do you want to add this event to your calendar?</p>
-          <AddToCalendar RegisteredEvent={event} venue={venue} />
-          <button onClick={handleCancel}>Cancel</button>
+          <p className="registered-event-section-item">
+            Start: {new Date(event.start.utc).toLocaleString()}
+          </p>
+          <p className="registered-event-section-item">
+            {" "}
+            End: {new Date(event.end.utc).toLocaleString()}
+          </p>
+          <p className="registered-event-section-item">
+            Venue: {venue ? venue.name : "To be announced soon"}
+          </p>
+          <p className="registered-event-section-item">
+            Tickets you chose: {ticketsToBuy}
+          </p>
+          <p className="registered-event-section-item">
+            Cost per ticket - {ticketsCost}
+          </p>
+          <p className="registered-event-section-item">
+            Your total - £{ticketsToBuy * ticketsCost}
+          </p>
+          <button
+            onClick={handlePurchase}
+            disabled={isClicked}
+            className={
+              isClicked
+                ? "grey registered-event-section-item"
+                : "purchase-button registered-event-section-item"
+            }
+          >
+            Purchase
+          </button>
         </div>
-      ) : null}
-    </div>
-  );
+        {isPurchased ? (
+          <div
+            id="add-google-calendar-container"
+            className={isPurchased ? "no-opacity" : null}
+          >
+            <p className="green">
+              Thank you! Your purchase has been successful!{" "}
+            </p>
+            <p>Do you want to add this event to your calendar?</p>
+            <AddToCalendar RegisteredEvent={event} venue={venue} />
+            <button className="calendar-cancel-button" onClick={handleCancel}>
+              Cancel X
+            </button>
+          </div>
+        ) : null}
+      </div>
+    );
+  } else {
+    return <ErrorPage error="You have no events to register" />;
+  }
 };
 
 export default RegisterForEvent;

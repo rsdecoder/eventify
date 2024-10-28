@@ -68,7 +68,6 @@ function AddToCalendar({ RegisteredEvent, venue }) {
 
   const addEventToCalendar = async () => {
     if (!gapi.client.calendar) {
-      console.error('GAPI client not loaded yet.');
       return;
     }
     const event = {
@@ -119,7 +118,7 @@ function AddToCalendar({ RegisteredEvent, venue }) {
           Sign In with Google
         </button>
       )}
-      <a href="/privacy-policy"><button>Privacy Policy</button></a>
+      <a href="/privacy-policy"><button className="privacy-policy-button">Privacy Policy</button></a>
     </div>
   );
 }

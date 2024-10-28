@@ -10,10 +10,9 @@
 4. [Environment Variables](#environment-variables)
 5. [Usage](#usage)
 6. [API Endpoints](#api-endpoints)
-7. [Folder Structure](#folder-structure)
-8. [Future Improvements](#future-improvements)
-9. [Contributing](#contributing)
-10. [License](#license)
+7. [Future Improvements](#future-improvements)
+8. [Contributing](#contributing)
+9. [License](#license)
 
 ### Features
 
@@ -98,7 +97,48 @@ Contributions are welcome! Please follow these steps:
 
 #### License
 
-><code>This project is licensed under the MIT License
-(LICENSE-MIT or http://opensource.org/licenses/MIT)</code>
+> <code>This project is licensed under the MIT License
+> (LICENSE-MIT or http://opensource.org/licenses/MIT)</code>
+---------------------------------------------------
+#### Link to the hosted Deployed version of the app
+
+https://eventify-rs.netlify.app/
+
+### How to use and Navigate through the app
+
+##### If you are a user, follow these guidelines
+
+1. As a user, you can browse events, filter events by category on the Home Page.
+2. You can click either the logo or Events navigation button to get back to the homepage.
+3. Clicking "view more" button on each event card will take you to individual event page to view more details.
+4. You can enter the tickets to buy and buy tickets using the buy tickets button. You will redirected to Login page to login if you haven't done so. 
+5. You can either login or sign up using the form.
+>Login details for non-staff user:
+>Email: veronica123@gmail.com
+>password: veronica*123
+6. You will then be taken to the purchase page to make the purchase.
+7. Once you have purchased the event, you can add to the calendar
+
+[NOTE] 
+> <code>**The calendar feature is working in test mode but doesn't work in production as Google API I have used is still in the process of verification by the Google Team. So you will not be able to add the event to the calendar at the moment.</code>
+
+##### Staff
+
+1. The Create button in the navigation bar will only be visible for users who are logged in as staff.
+2. If you are a staff and need to add an event, you need to login as staff.
+
+3. The test staff login details are below :
+
+>Staff Login details
+> Email: John@gmail.com
+>password: johnIs@Cool
+
+4. If you wish to sign up as staff, you will need to enter an organization id.
+
+>Organization Id - 2067465042723
+5. You will be redirected to create event page after successful login where you can enter event details and add the event to the database.
+
+
+Alternatively you can also login or sign up by going to the Accounts button on the navigation bar.
 
 

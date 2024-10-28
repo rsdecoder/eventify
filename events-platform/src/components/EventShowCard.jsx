@@ -34,7 +34,7 @@ const EventShowCard = ({ event }) => {
     fetchTicketClassByEventId(id).then((data) => {
       setTickets({ ...data });
     });
-  }, []);
+  }, [id]);
 
   return (
     <div className="event-card">

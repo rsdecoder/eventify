@@ -5,7 +5,7 @@ import { Vortex, MagnifyingGlass } from "react-loader-spinner";
 
 
 
-const LoaderSpinner = () => {
+const LoaderSpinner = ({message}) => {
   return (
     <div className="vortex-wrapper">
       <MagnifyingGlass
@@ -18,7 +18,7 @@ const LoaderSpinner = () => {
         glassColor="#c0efff"
         color="#e15b64"
       />
-      <p>Please bear with us while we fetch things for you</p>
+      {message? <p>{message}</p> :<p>Please bear with us while we fetch things for you</p>}; 
     </div>
   );
 };

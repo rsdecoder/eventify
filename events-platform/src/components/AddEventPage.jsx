@@ -12,6 +12,8 @@ import countryList from "react-select-country-list";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import ErrorPage from "./ErrorPage";
+import LoaderSpinner from "./LoaderSpinner";
+
 
 const AddEventPage = () => {
   const { userDetails, currentUser } = useAuth();
@@ -25,7 +27,7 @@ const AddEventPage = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [venueName, setVenueName] = useState("");
-  const [addEventCategoryId, setAddEventCategoryId] = useState("");
+  const [addEventCategoryId, setAddEventCategoryId] = useState(null);
   const defaultTimezone = "Europe/London";
   const [ticketClass, setTicketClass] = useState("General Admission");
   const [ticketQuantity, setTicketQuantity] = useState(0);
@@ -34,15 +36,25 @@ const AddEventPage = () => {
   const [venueAddress2, setVenueAddress2] = useState("");
   const [venueCity, setVenueCity] = useState("");
   const [venueCountry, setVenueCountry] = useState("GB");
-  const [postedTicket, setPostedTicket] = useState();
+
+
   const utcStartDate = startDate
     ? startDate.toISOString().split(".")[0] + "Z"
     : null;
   const utcEndDate = endDate ? endDate.toISOString().split(".")[0] + "Z" : null;
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  //filter passed time slots
+  const filterEndTime = (time) => {
+    if (!startDate) return true;
+    const selectedEndTime = new Date(time);
+    return selectedEndTime > startDate;
+  };
 
   // country list for venue country
   const options = useMemo(() => countryList().getData(), []);
+
   const venueDetails = {
     venue_name: venueName,
     venue_address1: venueAddress1,
@@ -50,58 +62,86 @@ const AddEventPage = () => {
     venue_city: venueCity,
     venue_country: venueCountry,
   };
+  const eventDetails = {
+    event_name: eventName,
+    event_description: eventDescription,
+    event_startDate: utcStartDate,
+    event_timezone: defaultTimezone,
+    event_endDate: utcEndDate,
+    event_currency: "GBP",
+    event_is_online: false,
+    event_category_id: addEventCategoryId,
+  };
 
   const ticketClassDetails = {
     ticketName: ticketClass,
     ticketQuantity: ticketQuantity,
-    ticketCost: "GBP," + ticketCost.toString(),
+    ticketCost:`GBP,${ticketCost * 100}`,
+
   };
 
   useEffect(() => {
     fetchAllCategories()
       .then((categories) => {
         setCategories(categories);
+        setIsLoading(false);
       })
       .catch((err) => {
         setError(err);
+        setIsLoading(true);
       });
   }, []);
 
+
   // handle add event click
   const handleCreateEvent = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
 
-    const eventDetails = {
-      event_name: eventName,
-      event_description: eventDescription,
-      event_startDate: utcStartDate,
-      event_timezone: defaultTimezone,
-      event_endDate: utcEndDate,
-      event_currency: "GBP",
-      event_is_online: false,
-      event_category_id: addEventCategoryId,
-    };
 
-    postVenue(venueDetails).then((data) => {
-      const venue_id = data.id;
-      postAnEvent(eventDetails, venue_id)
-        .then((data) => {
+    const now = new Date();
+    const start = new Date(utcStartDate);
+    const end = new Date(utcEndDate);
+
+    if (start <= now || end <= now) {
+      setError("Start and end dates must be in the future.");
+      return;
+    }
+
+    // Reset error before submitting
+    setError(null);
+
+    postVenue(venueDetails)
+      .then((data) => {
+        const venue_id = data.id;
+        return venue_id;
+      })
+      .then((venue_id) => {
+        const eventId = postAnEvent(eventDetails, venue_id).then((data) => {
           const event_id = data.id;
-          postTicketClass(event_id, ticketClassDetails)
-            .then((data) => {
-              setPostedTicket(data);
-            })
-            .catch((err) => {
-              setError(err);
-            });
-          alert("Event added succesfully");
-          formRef.current.reset();
-        })
-        .catch((err) => {
-          setError(err);
+          return event_id;
         });
-    });
+        return eventId;
+      })
+      .then((eventId) => {
+        postTicketClass(eventId, ticketClassDetails).then((data) => {
+          return data;
+        });
+      })
+      .then((data) => {
+        setIsLoading(true);
+        setTicketClass(data);
+        alert("Event and ticketclass added successfully!");
+        formRef.current.reset();
+      })
+      .catch((err) => {
+        setIsLoading(false);
+      });
   };
+
+  if (isLoading) {
+    return <LoaderSpinner message="Adding your event to the database" />;
+  }
 
   if (error) {
     return <ErrorPage error={error} />;
@@ -147,10 +187,10 @@ const AddEventPage = () => {
             className="add-event-form-input add-event-form-text-area"
             required
             minLength={50}
-            maxLength={200}
             onChange={(e) => setEventDescription(e.target.value)}
           />
         </label>
+        <p className="event-info green">[Word limit: min - 50] </p>
 
         <label className="event-label-section">
           <span className="event-label">Choose an appropriate Category:</span>
@@ -171,12 +211,15 @@ const AddEventPage = () => {
           <label className="event-label-section">
             <span className="event-label">When does the event start? </span>
             <DatePicker
-              dateFormat="yyyy/MM/dd  hh:mm:ss"
+              dateFormat="MMMM d, yyyy h:mm aa"
+              selectsStart
               selected={startDate}
               onChange={(date) => setStartDate(date)}
               showTimeSelect
               timeInputLabel="Time:"
               isClearable
+              minDate={new Date()}
+              filterTime={(time) => new Date(time) > new Date()}
               placeholderText="Pick a start date!"
               withPortal
               showIcon
@@ -191,7 +234,10 @@ const AddEventPage = () => {
               onChange={(date) => setEndDate(date)}
               showTimeSelect
               timeInputLabel="Time:"
-              dateFormat="YYYY/MM/dd  hh:mm:ss"
+              dateFormat="MMMM d, yyyy h:mm aa"
+              selectsEnd
+              minDate={startDate ? startDate : new Date()}
+              filterTime={filterEndTime}
               isClearable
               placeholderText="Pick an end date!"
               withPortal
@@ -286,24 +332,21 @@ const AddEventPage = () => {
               <option>Free</option>
             </select>
           </label>
-          {ticketClass === "General Admission" ? (
             <label className="event-label-section">
               <span className="event-label">
-                How much would you like to charge?{" "}
+                How much would you like to charge? (£){" "}
               </span>
               <CurrencyInput
                 className="add-event-form-input reduced-width"
                 id="input-example"
                 name="price"
                 placeholder="Please enter a number"
-                prefix="£"
                 required
                 defaultValue={0.0}
                 decimalsLimit={2}
                 onValueChange={(value, name, values) => setTicketCost(value)}
               />
             </label>
-          ) : null}
 
           <label className="event-label-section">
             <span className="event-label">

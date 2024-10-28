@@ -24,12 +24,17 @@ const SingleEvent = () => {
   const { event_id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const { currentUser } = useAuth();
+
+   
   useEffect(() => {
     fetchEventById(event_id)
       .then((event) => {
         setEventData(event);
-        if (event.venue_id) {
-          fetchVenueById(event.venue_id)
+        return event.venue_id;
+      })
+      .then((venue_id) => {
+        if(venue_id) {
+          fetchVenueById(venue_id)
             .then((venue) => {
               setVenue(venue);
             })
@@ -40,7 +45,7 @@ const SingleEvent = () => {
           setVenue({});
         }
         setIsLoading(false);
-      })
+      }) 
       .then(() => {
         fetchTicketClassByEventId(event_id)
           .then((response) => {
@@ -55,6 +60,8 @@ const SingleEvent = () => {
         setIsLoading(false);
       });
   }, [event_id]);
+
+
 
   const handleBuyTickets = (e) => {
     e.preventDefault();
@@ -158,7 +165,7 @@ const SingleEvent = () => {
               </p>
             </div>
           ) : (
-            <p>Ticket Information not available at the moment</p>
+            <p>Free</p>
           )}
           <form
             id="add-tickets"

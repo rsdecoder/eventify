@@ -15,6 +15,7 @@ const LoginForm = () => {
   const [type, setType] = useState("password");
   const [quote, setQuote] = useState("Show Password");
   const { eventId, ticketsToBuy } = location.state || {};
+  const [err, setErr] = useState()
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -65,6 +66,7 @@ const LoginForm = () => {
         });
       })
       .catch((err) => {
+        setErr(err);
         alert(err);
       });
   };
@@ -124,6 +126,7 @@ const LoginForm = () => {
               </span>
             </p>
           </label>
+          {err? <p className="red">Please check your details again!</p> : null}
           <input type="submit" value="Log in" className="submit" />
         </form>
       </div>

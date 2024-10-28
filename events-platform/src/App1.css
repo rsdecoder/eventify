@@ -413,3 +413,7 @@
 .hide-msg {
   display: none;
 }
+
+.red {
+  color: red;
+}

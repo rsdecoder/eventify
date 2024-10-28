@@ -76,6 +76,7 @@ export const postAnEvent = (eventDetails, venue_id) => {
     "event.currency": "GBP",
     "event.venue_id": venue_id,
     "event.online_event": false,
+    "event.category_id": eventDetails.event_category_id,
     "event.listed": false,
   };
   return eventsApi
@@ -119,7 +120,7 @@ export const postTicketClass = (eventId, ticketDetails) => {
     "ticket_class.description": ticketDetails.ticketName,
     "ticket_class.cost": ticketDetails.ticketCost,
     "ticket_class.capacity": ticketDetails.ticketQuantity,
-    "ticket_class.name": "General Admission",
+    "ticket_class.name": ticketDetails.ticketName,
   };
 
   return eventsApi

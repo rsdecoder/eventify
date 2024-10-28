@@ -19,30 +19,34 @@ const Events = () => {
     setIsLoading(true);
     fetchAllEvents()
       .then((events) => {
-        if (categoryQuery) {
-          const filteredEvents = events.filter((event) => {
-            return event.category_id === categoryQuery;
-          });
-          setFilteredEvents(filteredEvents);
-          if (filteredEvents.length === 0) {
-            setErr("Sorry, No events found in this category!");
-          }
-        }
         setEvents(events);
+        setFilteredEvents(events);
         setIsLoading(false);
       })
       .catch((err) => {
         setErr(err);
         setIsLoading(true);
       });
+
     setIsLoading(true);
-  }, [categoryQuery]);
+  }, []);
+
+  useEffect(() => {
+    if (categoryQuery) {
+      const filtered = events.filter(
+        (event) => event.category_id === categoryQuery
+      );
+      setFilteredEvents(filtered);
+    } else {
+      setFilteredEvents(events);
+    }
+  }, [categoryQuery, events]);
 
   if (isLoading) {
     return <LoaderSpinner />;
   }
   if (err) {
-    return <ErrorPage error ={err}/>; 
+    return <ErrorPage error={err} />;
   }
   return (
     <div id="all-events">
@@ -50,13 +54,13 @@ const Events = () => {
         {categoryName ? `Events filtered by ${categoryName}` : "All Events"}
       </p>
       <div id="events-container">
-        {categoryQuery
-          ? filteredEvents.map((event) => {
-              return <EventShowCard key={event.id} event={event} />;
-            })
-          : events.map((event) => {
-              return <EventShowCard key={event.id} event={event} />;
-            })}
+        {filteredEvents.length > 0 ? (
+          filteredEvents.map((event) => {
+            return <EventShowCard key={event.id} event={event} />;
+          })
+        ) : (
+          <p>No events found in this category!</p>
+        )}
       </div>
     </div>
   );
