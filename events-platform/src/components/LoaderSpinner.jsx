@@ -18,7 +18,7 @@ const LoaderSpinner = ({message}) => {
         glassColor="#c0efff"
         color="#e15b64"
       />
-      {message? <p>{message}</p> :<p>Please bear with us while we fetch things for you</p>}; 
+      {message? <p>{message}</p> :<p>Please bear with us while we fetch things for you</p>} 
     </div>
   );
 };

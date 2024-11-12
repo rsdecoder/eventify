@@ -68,7 +68,7 @@ export const fetchVenueById = (venue_id) => {
 export const postAnEvent = (eventDetails, venue_id) => {
   const postBody = {
     "event.name.html": eventDetails.event_name,
-    "event.description.html": eventDetails.event_description,
+    "event.summary": eventDetails.event_description,
     "event.start.utc": eventDetails.event_startDate,
     "event.start.timezone": eventDetails.event_timezone,
     "event.end.utc": eventDetails.event_endDate,

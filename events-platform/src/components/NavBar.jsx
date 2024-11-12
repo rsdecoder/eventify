@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { useAuth } from "../context/AuthContext";
-
+import ViewHeadlineIcon from "@mui/icons-material/ViewHeadline";
 const NavBar = () => {
   const { userDetails, currentUser } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -21,20 +21,19 @@ const NavBar = () => {
             alt="app-logo"
           />
         </a>
-        <p className="style-app-name">Eventify</p>
+        <a href="/">
+          <p className="style-app-name">Eventify</p>
+        </a>
       </div>
       <ul className="user-nav">
-        <li>
-          <a href="/" className="user-nav-link">
-            Events
-          </a>
-        </li>
+        <a href="/" className="user-nav-link">
+          <li>Events</li>
+        </a>
+
         {userDetails && userDetails.role === "staff" ? (
-          <li>
-            <a href="/add-event" className="user-nav-link">
-              Create Event
-            </a>
-          </li>
+          <a href="/add-event" className="user-nav-link">
+            <li>Create Event</li>
+          </a>
         ) : null}
         <li className="navbar-item">
           <button
@@ -55,25 +54,66 @@ const NavBar = () => {
               </div>
               <ul className="dropdown-list">
                 {!currentUser ? (
-                  <li>
-                    <a href="/login">SignUp/Login</a>
-                  </li>
+                  <a href="/login" className="user-link">
+                    <li>SignUp/Login</li>
+                  </a>
                 ) : null}
                 {currentUser ? (
-                  <li>
-                    <a href="/profile">Profile</a>
-                  </li>
+                  <a href="/profile" className="user-link">
+                    <li>Profile</li>
+                  </a>
                 ) : null}
                 {currentUser ? (
-                  <li>
-                    <a href="/logout">Sign out</a>
-                  </li>
+                  <a href="/logout" className="user-link">
+                    <li>Sign out</li>
+                  </a>
                 ) : null}
               </ul>
             </div>
           )}
         </li>
       </ul>
+      <div id="sidebar-nav">
+        <ViewHeadlineIcon
+          onClick={toggleDropdown}
+          style={{ fotSize: "large" }}
+          className="sidebar-icon"
+        ></ViewHeadlineIcon>
+        {isDropdownOpen && (
+          <div className="dropdown-menu">
+            <div className="dropdown-close">
+              <p className="dropdown-header">Eventify</p>
+              <CloseIcon
+                onClick={toggleDropdown}
+                cursor="pointer"
+                className="close-icon"
+              />
+            </div>
+            <ul className="dropdown-list">
+              {!currentUser ? (
+                <a href="/login">
+                  <li>SignUp/Login</li>
+                </a>
+              ) : null}
+              {userDetails && userDetails.role === "staff" ? (
+                <a href="/add-event" className="user-link">
+                  <li>Create Event</li>
+                </a>
+              ) : null}
+              {currentUser ? (
+                <a href="/profile" className="user-link">
+                  <li>Profile</li>
+                </a>
+              ) : null}
+              {currentUser ? (
+                <a href="/logout" className="user-link">
+                  <li>Sign out</li>
+                </a>
+              ) : null}
+            </ul>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

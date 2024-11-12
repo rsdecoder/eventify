@@ -1,7 +1,7 @@
 #main {
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100vh;
+  height: 100%;
 }
 
 #header {
@@ -24,6 +24,10 @@
   align-items: center;
   align-self: left;
   justify-content: space-between;
+}
+
+.header-welcome a {
+  text-decoration: none;
 }
 
 .style-app-name {
@@ -53,7 +57,9 @@
   padding: 10px;
   font-size: 20px;
 }
-
+#sidebar-nav {
+  display: none;
+}
 /* Login-page */
 #login {
   display: flex;
@@ -206,7 +212,7 @@
 #add-event-page {
   display: flex;
   flex-direction: column;
-  margin: 10px;
+  /* margin: 5px; */
   padding: 10px;
   background-color: #0c2b59;
   color: white;
@@ -250,15 +256,14 @@
 }
 .add-event-form-input {
   border-radius: 10px;
-  /* align-self: center; */
   border: 1px solid navy;
   color: black;
-  font-size: 18px;
+  font-size: 16px;
   padding: 20px;
-  background-color: rgb(198, 191, 191);
+  background-color: white;
 }
 .add-event-form-text-area {
-  width: 70vw;
+  max-width: 80%;
 }
 /* .image-upload-section {
   margin: 5px 10px 5px 10px;
@@ -277,8 +282,6 @@
   justify-content: space-between;
 }
 .date-picker {
-  background-color: rgb(106, 188, 106);
-  background-color: rgb(166, 214, 233);
   text-align: center;
 }
 .reduced-width {
@@ -292,9 +295,7 @@
   justify-content: space-between;
 }
 
-.venue-input {
-  width: 400px;
-}
+
 .venue-address {
   display: flex;
   flex-direction: row;
@@ -381,6 +382,16 @@
   color: blue;
 }
 
+.user-link  {
+
+  text-decoration: none;
+  color: rgb(18, 106, 214);
+}
+.user-link:hover {
+  cursor: pointer;
+
+}
+
 /* sign up page */
 
 .radio-input-section {
@@ -416,4 +427,59 @@
 
 .red {
   color: red;
+}
+
+.input-error-message {
+  font-size: 20px;
+  padding: 10px;
+  text-align: center;
+  color: rgb(239, 62, 62);
+}
+
+.success-message {
+  font-size: 30px;
+  color: green;   
+}
+
+.event-error-message {
+  font-size: 18px;
+  padding: 10px;
+  color: rgb(239, 62, 62);
+}
+
+
+
+
+
+/* Mobile view */
+
+@media (max-width: 768px) {
+
+  .user-nav {
+    display: none;
+  }
+  #sidebar-nav{
+    display:contents;
+  }
+  .sidebar-icon {
+    font-size: large;
+    color: #c63c51;
+  }
+  .user-link {
+    text-decoration: none;
+    color: rgb(18, 106, 214);
+  }
+  .user-link:hover {
+    cursor: pointer;
+
+  }
+
+  .dropdown-menu {
+    width: 200px;
+  }
+  .add-event-form-text-area {
+    max-width: 250px;
+    min-height: 100px;
+    border-radius: 10px;;
+  }
 }

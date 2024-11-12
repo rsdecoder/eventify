@@ -1,6 +1,6 @@
 #single-event-page {
-  height: 110%;
-  margin: 10px;
+  /* height: 100%; */
+  /* margin: 10px; */
   padding: 40px;
   display: flex;
   flex-direction: column;
@@ -8,22 +8,22 @@
   font-size: 20px;
   color: white;
   background-color: #522258;
+  
 }
 .single-event-information {
   display: flex;
   flex-direction: column;
   align-items: left;
-  height: 500px;
-  padding: 20px;
   justify-content: space-around;
 }
 .single-event-item {
-  margin-bottom: 30px;
+  margin-top: 30px;
 }
 .single-event-title {
-  font-size: 2.5rem;
+  font-size: 2.3rem;
   color: #eb4e65;
   font-weight: bold;
+  padding-bottom: 10px;
   align-self: flex-start;
 }
 
@@ -96,6 +96,7 @@
 .ticket-submit {
   height: 40px;
   width: 130px;
+  margin-top: 20px;
   font-size: 18px;
   border: 1px solid white;
   border-radius: 10px;

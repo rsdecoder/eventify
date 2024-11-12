@@ -14,7 +14,6 @@ import { useAuth } from "../context/AuthContext";
 import ErrorPage from "./ErrorPage";
 import LoaderSpinner from "./LoaderSpinner";
 
-
 const AddEventPage = () => {
   const { userDetails, currentUser } = useAuth();
 
@@ -23,6 +22,8 @@ const AddEventPage = () => {
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   const [eventName, setEventName] = useState("");
+  const [eventNameError, setEventNameError] = useState("");
+  const [inputErrorMessage, setInputErrorMessage] = useState("");
   const [eventDescription, setEventDescription] = useState("");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -36,7 +37,8 @@ const AddEventPage = () => {
   const [venueAddress2, setVenueAddress2] = useState("");
   const [venueCity, setVenueCity] = useState("");
   const [venueCountry, setVenueCountry] = useState("GB");
-
+  const [successMessage, setSuccessMessage] = useState("");
+  const [venueNameError, setVenueNameError] = useState("");
 
   const utcStartDate = startDate
     ? startDate.toISOString().split(".")[0] + "Z"
@@ -76,8 +78,7 @@ const AddEventPage = () => {
   const ticketClassDetails = {
     ticketName: ticketClass,
     ticketQuantity: ticketQuantity,
-    ticketCost:`GBP,${ticketCost * 100}`,
-
+    ticketCost: `GBP,${ticketCost * 100}`,
   };
 
   useEffect(() => {
@@ -92,25 +93,64 @@ const AddEventPage = () => {
       });
   }, []);
 
+  //handle input changes
+
+  const validateEventNameInput = (e) => {
+    const value = e.target.value;
+
+    if (value.trim().length < 1) {
+      setEventNameError(
+        "Event name cannot be empty or start with a whitespace"
+      );
+      setEventName(value.trim());
+    } else {
+      setEventNameError("");
+      setEventName(value.trim());
+    }
+  };
+
+  //handle Venue Input changes 
+
+  const validateVenueNameInput = (e) => {
+    const value = e.target.value;
+
+    if (value.trim().length < 1) {
+      setVenueNameError(
+        "Venue name cannot be empty or start with a whitespace"
+      );
+      setVenueName(value.trim());
+    } else {
+      setVenueNameError("");
+      setVenueName(value.trim());
+    }
+  };
 
   // handle add event click
   const handleCreateEvent = async (e) => {
-    setIsLoading(true);
     e.preventDefault();
-
+    setIsLoading(true);
+    setSuccessMessage("");
+    // Reset error before submitting
+    setError(null);
 
     const now = new Date();
     const start = new Date(utcStartDate);
     const end = new Date(utcEndDate);
 
     if (start <= now || end <= now) {
-      setError("Start and end dates must be in the future.");
+      setInputErrorMessage("Start and end dates must be in the future.");
       return;
     }
 
-    // Reset error before submitting
+    if (eventName.length < 1) {
+      setInputErrorMessage("Event name cannot be empty or contain only whitespace.");
+      return;
+    }
+    if (venueName.trim().length < 1) {
+      setInputErrorMessage("Venue name cannot be empty");
+      return;
+    }
     setError(null);
-
     postVenue(venueDetails)
       .then((data) => {
         const venue_id = data.id;
@@ -131,12 +171,20 @@ const AddEventPage = () => {
       .then((data) => {
         setIsLoading(true);
         setTicketClass(data);
-        alert("Event and ticketclass added successfully!");
+        // alert("Event and ticketclass added successfully!");
+        setSuccessMessage("Event and Ticket Class added successfully!");
+        // Auto-hide the success message after 3 seconds
+        setTimeout(() => {
+          setSuccessMessage("");
+        }, 3000);
         formRef.current.reset();
       })
       .catch((err) => {
+        setError(err.message);
+        console.log(err);
         setIsLoading(false);
       });
+    setIsLoading(false);
   };
 
   if (isLoading) {
@@ -156,6 +204,7 @@ const AddEventPage = () => {
         below and clicking the
         <span className="create-event-text"> Create Event</span> button!
       </p>
+      {successMessage && <p className="success-message">{successMessage}</p>}
       <form
         ref={formRef}
         id="event-form"
@@ -166,7 +215,7 @@ const AddEventPage = () => {
           Please enter the event details here.
         </h4>
         <label className="event-label-section">
-          <span className="event-label">Give your Event a Name: </span>
+          <span className="event-label">Give your Event a Name </span>
           <input
             type="text"
             placeholder="Event name"
@@ -174,11 +223,15 @@ const AddEventPage = () => {
             autoComplete="on"
             className="add-event-form-input reduced-width"
             required
-            onChange={(e) => setEventName(e.target.value)}
+            onChange={validateEventNameInput}
+            // onChange={(e) => setEventName(e.target.value.trim())}
           />
+          {eventNameError && (
+            <p className="event-error-message">{eventNameError}</p>
+          )}
         </label>
         <label className="event-label-section">
-          <span className="event-label">Describe about your event:</span>
+          <span className="event-label">Describe your event</span>
           <textarea
             type="text"
             placeholder="Event Description"
@@ -187,17 +240,17 @@ const AddEventPage = () => {
             className="add-event-form-input add-event-form-text-area"
             required
             minLength={50}
-            onChange={(e) => setEventDescription(e.target.value)}
+            onChange={(e) => setEventDescription(e.target.value.trim())}
           />
+          <span className="green">[ Word limit: Min - 50 ]</span>
         </label>
-        <p className="event-info green">[Word limit: min - 50] </p>
-
         <label className="event-label-section">
-          <span className="event-label">Choose an appropriate Category:</span>
+          <span className="event-label">Choose an appropriate Category </span>
           <select
-            className="add-event-form-input reduced-width"
+            className="add-event-form-input reduced-width custom-select"
             onChange={(e) => setAddEventCategoryId(e.target.value)}
           >
+            <option>Choose a Category</option>
             {categories.map((category) => {
               return (
                 <option value={category.id} key={category.id}>
@@ -258,35 +311,39 @@ const AddEventPage = () => {
               placeholder="Name of the Venue"
               name="venue-name"
               autoComplete="on"
-              className="add-event-form-input venue-input"
+              className="add-event-form-input venue-input reduced-width"
               required
-              onChange={(e) => setVenueName(e.target.value)}
+              onChange={validateVenueNameInput}
             />
           </label>
+          {venueNameError && (
+            <p className="event-error-message">{venueNameError}</p>
+          )}
           <p className="venue-address-heading">Address</p>
           <div className="venue-address">
             <label className="event-label-section">
-              <span className="event-label">address line 1</span>
+              <span className="event-label">
+                address (street name, building name){" "}
+              </span>
               <input
                 type="text"
                 placeholder="building name"
                 autoComplete="on"
                 required
-                className="add-event-form-input venue-input"
+                className="add-event-form-input reduced-width"
                 onChange={(e) => setVenueAddress1(e.target.value)}
               />
             </label>
-            <label className="event-label-section">
+            {/* <label className="event-label-section">
               <span className="event-label">address line 2</span>
               <input
                 type="text"
                 placeholder="street, county"
                 autoComplete="on"
                 className="add-event-form-input venue-input"
-                required
                 onChange={(e) => setVenueAddress2(e.target.value)}
               />
-            </label>
+            </label> */}
           </div>
           <label className="event-label-section">
             <span className="event-label">City</span>
@@ -325,6 +382,7 @@ const AddEventPage = () => {
             <select
               className="add-event-form-input reduced-width"
               defaultValue={"General Admission"}
+              required
               onChange={(e) => setTicketClass(e.target.value)}
             >
               <option>General Admission</option>
@@ -332,21 +390,21 @@ const AddEventPage = () => {
               <option>Free</option>
             </select>
           </label>
-            <label className="event-label-section">
-              <span className="event-label">
-                How much would you like to charge? (£){" "}
-              </span>
-              <CurrencyInput
-                className="add-event-form-input reduced-width"
-                id="input-example"
-                name="price"
-                placeholder="Please enter a number"
-                required
-                defaultValue={0.0}
-                decimalsLimit={2}
-                onValueChange={(value, name, values) => setTicketCost(value)}
-              />
-            </label>
+          <label className="event-label-section">
+            <span className="event-label">
+              How much would you like to charge? (£){" "}
+            </span>
+            <CurrencyInput
+              className="add-event-form-input reduced-width"
+              id="input-example"
+              name="price"
+              placeholder="Please enter a number"
+              required
+              defaultValue={0.0}
+              decimalsLimit={2}
+              onValueChange={(value, name, values) => setTicketCost(value)}
+            />
+          </label>
 
           <label className="event-label-section">
             <span className="event-label">
@@ -361,6 +419,9 @@ const AddEventPage = () => {
               onChange={(e) => setTicketQuantity(e.target.value)}
             />
           </label>
+          {inputErrorMessage && (
+            <p className="input-error-message">{inputErrorMessage}</p>
+          )}
         </div>
         <input
           type="submit"
