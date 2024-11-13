@@ -22,10 +22,10 @@ const SingleEvent = () => {
   const [ticketDetails, setTicketDetails] = useState({});
   const [error, setError] = useState(null);
   const { event_id } = useParams();
+  const [donateAmount, setDonateAmount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const { currentUser } = useAuth();
 
-   
   useEffect(() => {
     fetchEventById(event_id)
       .then((event) => {
@@ -33,7 +33,7 @@ const SingleEvent = () => {
         return event.venue_id;
       })
       .then((venue_id) => {
-        if(venue_id) {
+        if (venue_id) {
           fetchVenueById(venue_id)
             .then((venue) => {
               setVenue(venue);
@@ -45,7 +45,7 @@ const SingleEvent = () => {
           setVenue({});
         }
         setIsLoading(false);
-      }) 
+      })
       .then(() => {
         fetchTicketClassByEventId(event_id)
           .then((response) => {
@@ -60,8 +60,6 @@ const SingleEvent = () => {
         setIsLoading(false);
       });
   }, [event_id]);
-
-
 
   const handleBuyTickets = (e) => {
     e.preventDefault();
@@ -85,7 +83,7 @@ const SingleEvent = () => {
   };
 
   if (isLoading) {
-    return <LoaderSpinner/>
+    return <LoaderSpinner />;
   }
   if (error) {
     return <p>{error.response.data.error_description}</p>;
@@ -161,12 +159,13 @@ const SingleEvent = () => {
                   : "General Admission"}
               </p>
               <p className="single-ticket-item">
-                {ticketDetails.cost ? `${ticketDetails.cost.display}` : null}
+                {ticketDetails.cost ? `${ticketDetails.cost.display}` : "£0"}
               </p>
             </div>
           ) : (
             <p>Free</p>
           )}
+
           <form
             id="add-tickets"
             className="single-event-item"
@@ -177,12 +176,15 @@ const SingleEvent = () => {
               <input
                 type="number"
                 placeholder={ticketsChosen ? ticketsChosen : 0}
-                value = {ticketsToBuy}
+                value={ticketsToBuy}
                 min={1}
                 max={ticketDetails ? ticketDetails.capacity : 20}
-                required = {ticketsChosen? false : true}
+                required={ticketsChosen ? false : true}
                 className="ticket-input"
-                onChange={(e) => ticketsChosen? setTicketsToBuy(ticketsChosen) : setTicketsToBuy(e.target.value)
+                onChange={(e) =>
+                  ticketsChosen
+                    ? setTicketsToBuy(ticketsChosen)
+                    : setTicketsToBuy(e.target.value)
                 }
               />
             </label>

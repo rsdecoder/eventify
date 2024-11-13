@@ -6,7 +6,7 @@ const CategoryCard = ({ categoryId, categoryName }) => {
       <Link
         to={`/events?category_id=${categoryId}&category_name=${categoryName}`}
         className="category-link"
-        style={{ textDecoration: "none" }}
+        style={{ textDecoration: "none", textAlign: "center" }}
       >
         {categoryName}
       </Link>

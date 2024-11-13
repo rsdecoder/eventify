@@ -7,9 +7,9 @@ import {
   postTicketClass,
   postVenue,
 } from "../../apis";
-import CurrencyInput from "react-currency-input-field";
+import CelebrationIcon from "@mui/icons-material/Celebration";
 import countryList from "react-select-country-list";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import ErrorPage from "./ErrorPage";
 import LoaderSpinner from "./LoaderSpinner";
@@ -22,8 +22,6 @@ const AddEventPage = () => {
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   const [eventName, setEventName] = useState("");
-  const [eventNameError, setEventNameError] = useState("");
-  const [inputErrorMessage, setInputErrorMessage] = useState("");
   const [eventDescription, setEventDescription] = useState("");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -33,19 +31,27 @@ const AddEventPage = () => {
   const [ticketClass, setTicketClass] = useState("General Admission");
   const [ticketQuantity, setTicketQuantity] = useState(0);
   const [ticketCost, setTicketCost] = useState(0.0);
+  const [isDonation, setIsDonation] = useState(false);
+  const [isFree, setIsFree] = useState(false);
   const [venueAddress1, setVenueAddress1] = useState("");
   const [venueAddress2, setVenueAddress2] = useState("");
   const [venueCity, setVenueCity] = useState("");
   const [venueCountry, setVenueCountry] = useState("GB");
   const [successMessage, setSuccessMessage] = useState("");
   const [venueNameError, setVenueNameError] = useState("");
+  const [eventNameError, setEventNameError] = useState("");
+  const [inputErrorMessage, setInputErrorMessage] = useState("");
+  const [desciptionError, setDescriptionError] = useState("");
+  const [addressChangeError, setAddressChangeError] = useState("");
+  const [cityChangeError, setCitychangeError] = useState("");
+  const restrictedChars = /[#$%^&*()_+={}\[\]"'<>/\\|`~£]/;
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const utcStartDate = startDate
     ? startDate.toISOString().split(".")[0] + "Z"
     : null;
   const utcEndDate = endDate ? endDate.toISOString().split(".")[0] + "Z" : null;
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
 
   //filter passed time slots
   const filterEndTime = (time) => {
@@ -79,9 +85,13 @@ const AddEventPage = () => {
     ticketName: ticketClass,
     ticketQuantity: ticketQuantity,
     ticketCost: `GBP,${ticketCost * 100}`,
+    ticketDonation: isDonation,
+    ticketFree: isFree
+
   };
 
   useEffect(() => {
+    setIsLoading(true);
     fetchAllCategories()
       .then((categories) => {
         setCategories(categories);
@@ -93,23 +103,32 @@ const AddEventPage = () => {
       });
   }, []);
 
+  //restrict user from typing certain characters
+  const handleKeyDown = (e) => {
+    // Check if the key pressed is a restricted character
+    if (restrictedChars.test(e.key)) {
+      e.preventDefault(); // Block the input
+    }
+  };
+
   //handle input changes
 
   const validateEventNameInput = (e) => {
     const value = e.target.value;
-
+    e.preventDefault();
     if (value.trim().length < 1) {
       setEventNameError(
         "Event name cannot be empty or start with a whitespace"
       );
-      setEventName(value.trim());
+      setEventName("");
     } else {
       setEventNameError("");
+      setInputErrorMessage("");
       setEventName(value.trim());
     }
   };
 
-  //handle Venue Input changes 
+  //handle Venue Input changes
 
   const validateVenueNameInput = (e) => {
     const value = e.target.value;
@@ -121,15 +140,87 @@ const AddEventPage = () => {
       setVenueName(value.trim());
     } else {
       setVenueNameError("");
+      setInputErrorMessage("");
       setVenueName(value.trim());
     }
   };
 
-  // handle add event click
+  // handle Event Description change
+  const handleEventDescriptionChange = (e) => {
+    const value = e.target.value;
+
+    if (value.trim().length < 1) {
+      setDescriptionError(
+        "Description field cannot be empty or start with a whitespace"
+      );
+      setEventDescription("");
+    } else {
+      setDescriptionError("");
+      setInputErrorMessage("");
+      setEventDescription(value.trim());
+    }
+  };
+
+  //handle Address Change
+  const validateAdressInput = (e) => {
+    const value = e.target.value;
+
+    if (value.trim().length < 1) {
+      setAddressChangeError(
+        "Address field cannot be empty or start with a whitespace"
+      );
+      setVenueAddress1("");
+    } else {
+      setAddressChangeError("");
+      setInputErrorMessage("");
+      setVenueAddress1(value.trim());
+    }
+  };
+
+  // validate City Input
+
+  const validateCityInput = (e) => {
+    const value = e.target.value;
+
+    if (value.trim().length < 1) {
+      setCitychangeError(
+        "City field cannot be empty or start with a whitespace"
+      );
+      setEventDescription("");
+    } else {
+      setCitychangeError("");
+      setInputErrorMessage("");
+      setVenueCity(value.trim());
+    }
+  };
+
+// handle ticket class change
+
+const handleTicketClassChange = (e) => {
+  e.preventDefault();
+  const ticketClassName =  e.target.value;
+  if(ticketClassName === "General Admission"){
+    setIsDonation(false);
+    setIsFree(false);
+    setTicketClass(ticketClassName);
+  }
+  else if (ticketClassName === "Donation"){
+    setIsDonation(true);
+    setIsFree(false);
+    setTicketClass(ticketClassName);
+  }
+  else {
+    setIsDonation(false);
+    setIsFree(true);
+    setTicketClass(ticketClassName)
+  }
+}
+
+  // handle add event click - form submission
   const handleCreateEvent = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
     setSuccessMessage("");
+    setInputErrorMessage("");
     // Reset error before submitting
     setError(null);
 
@@ -143,14 +234,26 @@ const AddEventPage = () => {
     }
 
     if (eventName.length < 1) {
-      setInputErrorMessage("Event name cannot be empty or contain only whitespace.");
+      setInputErrorMessage(
+        "Event name cannot be blank or contain only whitespace."
+      );
       return;
     }
+
     if (venueName.trim().length < 1) {
-      setInputErrorMessage("Venue name cannot be empty");
+      setInputErrorMessage("Venue name cannot be blank");
+      return;
+    }
+    if (venueAddress1.trim().length < 1) {
+      setInputErrorMessage("Address cannot be blank");
+      return;
+    }
+    if (venueCity.trim().length < 1) {
+      setInputErrorMessage("City cannot be blank");
       return;
     }
     setError(null);
+    setIsLoading(true);
     postVenue(venueDetails)
       .then((data) => {
         const venue_id = data.id;
@@ -169,22 +272,22 @@ const AddEventPage = () => {
         });
       })
       .then((data) => {
-        setIsLoading(true);
         setTicketClass(data);
-        // alert("Event and ticketclass added successfully!");
-        setSuccessMessage("Event and Ticket Class added successfully!");
-        // Auto-hide the success message after 3 seconds
+        alert("Form submitted successfully");
+        if (formRef.current) {
+          // Ensuring formRef is not null before calling reset
+          formRef.current.reset();
+        }
+        setSuccessMessage("Event Added Successfully!");
         setTimeout(() => {
           setSuccessMessage("");
-        }, 3000);
-        formRef.current.reset();
+        }, 1000);
+        setIsLoading(false);
       })
       .catch((err) => {
         setError(err.message);
-        console.log(err);
         setIsLoading(false);
       });
-    setIsLoading(false);
   };
 
   if (isLoading) {
@@ -199,12 +302,17 @@ const AddEventPage = () => {
   }
   return (
     <div id="add-event-page">
+      {successMessage && (
+        <p className="success-message">
+          {successMessage} <CelebrationIcon style={{ color: "orange" }} />
+        </p>
+      )}
+      
       <p className="add-event-page-heading">
         <span className="wrapper">C</span>reate an event by filling the form
         below and clicking the
         <span className="create-event-text"> Create Event</span> button!
       </p>
-      {successMessage && <p className="success-message">{successMessage}</p>}
       <form
         ref={formRef}
         id="event-form"
@@ -224,7 +332,7 @@ const AddEventPage = () => {
             className="add-event-form-input reduced-width"
             required
             onChange={validateEventNameInput}
-            // onChange={(e) => setEventName(e.target.value.trim())}
+            onKeyDown={handleKeyDown}
           />
           {eventNameError && (
             <p className="event-error-message">{eventNameError}</p>
@@ -239,10 +347,15 @@ const AddEventPage = () => {
             autoComplete="on"
             className="add-event-form-input add-event-form-text-area"
             required
-            minLength={50}
-            onChange={(e) => setEventDescription(e.target.value.trim())}
+            minLength={20}
+            maxLength={135}
+            onChange={handleEventDescriptionChange}
+            onKeyDown={handleKeyDown}
           />
-          <span className="green">[ Word limit: Min - 50 ]</span>
+          <span className="green">[ Word limit: Min - 20, Max - 135 ]</span>
+          {desciptionError && (
+            <p className="event-error-message">{desciptionError}</p>
+          )}
         </label>
         <label className="event-label-section">
           <span className="event-label">Choose an appropriate Category </span>
@@ -267,7 +380,9 @@ const AddEventPage = () => {
               dateFormat="MMMM d, yyyy h:mm aa"
               selectsStart
               selected={startDate}
-              onChange={(date) => setStartDate(date)}
+              onChange={(date) => {
+                setStartDate(date), setInputErrorMessage("");
+              }}
               showTimeSelect
               timeInputLabel="Time:"
               isClearable
@@ -284,7 +399,9 @@ const AddEventPage = () => {
             <span className="event-label">When does the event end? </span>
             <DatePicker
               selected={endDate}
-              onChange={(date) => setEndDate(date)}
+              onChange={(date) => {
+                setEndDate(date), setInputErrorMessage("");
+              }}
               showTimeSelect
               timeInputLabel="Time:"
               dateFormat="MMMM d, yyyy h:mm aa"
@@ -314,6 +431,7 @@ const AddEventPage = () => {
               className="add-event-form-input venue-input reduced-width"
               required
               onChange={validateVenueNameInput}
+              onKeyDown={handleKeyDown}
             />
           </label>
           {venueNameError && (
@@ -331,19 +449,13 @@ const AddEventPage = () => {
                 autoComplete="on"
                 required
                 className="add-event-form-input reduced-width"
-                onChange={(e) => setVenueAddress1(e.target.value)}
+                onChange={validateAdressInput}
+                onKeyDown={handleKeyDown}
               />
             </label>
-            {/* <label className="event-label-section">
-              <span className="event-label">address line 2</span>
-              <input
-                type="text"
-                placeholder="street, county"
-                autoComplete="on"
-                className="add-event-form-input venue-input"
-                onChange={(e) => setVenueAddress2(e.target.value)}
-              />
-            </label> */}
+            {addressChangeError && (
+              <p className="event-error-message">{addressChangeError}</p>
+            )}
           </div>
           <label className="event-label-section">
             <span className="event-label">City</span>
@@ -353,9 +465,13 @@ const AddEventPage = () => {
               autoComplete="on"
               required
               className="add-event-form-input reduced-width"
-              onChange={(e) => setVenueCity(e.target.value)}
+              onChange={validateCityInput}
+              onKeyDown={handleKeyDown}
             />
           </label>
+          {cityChangeError && (
+            <p className="event-error-message">{cityChangeError}</p>
+          )}
           <label className="event-label-section">
             <span className="event-label">Country</span>
             <select
@@ -381,30 +497,32 @@ const AddEventPage = () => {
             <span className="event-label">Choose a ticket Class:</span>
             <select
               className="add-event-form-input reduced-width"
-              defaultValue={"General Admission"}
               required
-              onChange={(e) => setTicketClass(e.target.value)}
+              onChange={handleTicketClassChange}
+              // onChange={(e) => setTicketClass(e.target.value)}
             >
-              <option>General Admission</option>
-              <option>Donation</option>
-              <option>Free</option>
+              <option>Choose a ticket Class</option>
+              <option value={"General Admission"}>General Admission</option>
+              <option value={"Donation"}>Donation</option>
+              <option value={"Free"}>Free</option>
             </select>
           </label>
+          {isDonation || isFree ?  null :
           <label className="event-label-section">
             <span className="event-label">
               How much would you like to charge? (£){" "}
             </span>
-            <CurrencyInput
+            <input
               className="add-event-form-input reduced-width"
-              id="input-example"
-              name="price"
-              placeholder="Please enter a number"
+              type="number"
+              placeholder="0"
+              min={0}
+              max={100}
               required
-              defaultValue={0.0}
-              decimalsLimit={2}
-              onValueChange={(value, name, values) => setTicketCost(value)}
+              onChange={(e) => setTicketCost(parseInt(e.target.value))}
             />
-          </label>
+          </label>  
+}
 
           <label className="event-label-section">
             <span className="event-label">
@@ -415,8 +533,9 @@ const AddEventPage = () => {
               type="number"
               placeholder="0"
               min={0}
+              max={1000}
               required
-              onChange={(e) => setTicketQuantity(e.target.value)}
+              onChange={(e) => setTicketQuantity(parseInt(e.target.value))}
             />
           </label>
           {inputErrorMessage && (
@@ -427,6 +546,16 @@ const AddEventPage = () => {
           type="submit"
           value="Create Event"
           className="event-submit add-event-form-input"
+          disabled={
+            eventNameError ||
+            venueNameError ||
+            desciptionError ||
+            cityChangeError ||
+            addressChangeError ||
+            inputErrorMessage
+              ? true
+              : false
+          }
         />
       </form>
     </div>

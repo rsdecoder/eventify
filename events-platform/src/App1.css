@@ -63,7 +63,7 @@
 /* Login-page */
 #login {
   display: flex;
-  height: 100vh;
+  height: 100%;
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
@@ -185,7 +185,7 @@
   justify-content: center;
   margin: 30px;
   padding: 50px;
-  font-size: 16px;
+  font-size: 14px;
   box-shadow: 2px 2px 2px #522258;
   height: 60px;
   width: 60px;
@@ -236,9 +236,6 @@
   flex-direction: column;
   margin: 5px;
   padding: 10px;
-  /* border: 1px solid red; */
-  /* padding-bottom: 20px;
-  border-bottom: 2px solid navy; */
 }
 .add-event-form-heading {
   font-size: 22px;
@@ -295,7 +292,6 @@
   justify-content: space-between;
 }
 
-
 .venue-address {
   display: flex;
   flex-direction: row;
@@ -323,6 +319,13 @@
   padding: 18px;
   background-color: rgb(20, 141, 20);
 }
+.event-submit:disabled {
+  background-color: grey;
+  cursor: arrow;
+  padding: 20px;
+  color: rgb(93, 89, 89);
+}
+
 .error {
   margin-top: 100px;
 }
@@ -382,14 +385,12 @@
   color: blue;
 }
 
-.user-link  {
-
+.user-link {
   text-decoration: none;
   color: rgb(18, 106, 214);
 }
 .user-link:hover {
   cursor: pointer;
-
 }
 
 /* sign up page */
@@ -437,8 +438,10 @@
 }
 
 .success-message {
-  font-size: 30px;
-  color: green;   
+  margin: 10px;
+  font-size: 28px;
+  text-align: center;
+  color: rgb(23, 202, 23);
 }
 
 .event-error-message {
@@ -447,19 +450,27 @@
   color: rgb(239, 62, 62);
 }
 
-
-
-
+.goback-button {
+  margin: 10px;
+  padding: 6px;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+  width: 120px;
+  background-color: rgb(224, 88, 39);
+  color: white;
+  border: 1px solid red;
+  border-radius: 10px;
+}
 
 /* Mobile view */
 
 @media (max-width: 768px) {
-
   .user-nav {
     display: none;
   }
-  #sidebar-nav{
-    display:contents;
+  #sidebar-nav {
+    display: contents;
   }
   .sidebar-icon {
     font-size: large;
@@ -471,7 +482,6 @@
   }
   .user-link:hover {
     cursor: pointer;
-
   }
 
   .dropdown-menu {
@@ -480,6 +490,6 @@
   .add-event-form-text-area {
     max-width: 250px;
     min-height: 100px;
-    border-radius: 10px;;
+    border-radius: 10px;
   }
 }

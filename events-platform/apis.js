@@ -118,11 +118,12 @@ export const postVenue = (venueDetails) => {
 export const postTicketClass = (eventId, ticketDetails) => {
   const postBody = {
     "ticket_class.description": ticketDetails.ticketName,
+    "ticket_class.name": ticketDetails.ticketName,
     "ticket_class.cost": ticketDetails.ticketCost,
     "ticket_class.capacity": ticketDetails.ticketQuantity,
-    "ticket_class.name": ticketDetails.ticketName,
+    "ticket_class.donation": ticketDetails.ticketDonation,
+    "ticket_class.free": ticketDetails.ticketFree,
   };
-
   return eventsApi
     .post(`/events/${eventId}/ticket_classes/`, postBody, {
       headers: {

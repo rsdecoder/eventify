@@ -64,6 +64,7 @@ const RegisterForEvent = () => {
           <p className="registered-event-section-item">
             Cost per ticket - {ticketsCost}
           </p>
+          
           <p className="registered-event-section-item">
             Your total - £{ticketsToBuy * ticketsCost}
           </p>
